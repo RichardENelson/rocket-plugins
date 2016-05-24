@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.1
+ * @version 0.0.2
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -69,11 +69,15 @@
 		var $window;
 		var containers;
 		var enabled;
+		var scrollTimer;
+		var resizeTimer;
 		var windowHeight;
 		var windowTop;
 
 
 		// ----- PRIVATE CONSTANTS ----- //
+		var RESIZE_DELAY = 250;
+		var SCROLL_DELAY = 250;
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
@@ -86,7 +90,29 @@
 			windowHeight = $window.height();
 			windowTop = $window.scrollTop();
 
-			enable();
+		}
+
+		function clearResizeTimer() {
+			console.log( "RocketRevealManager: clearResizeTimer" );
+
+			if ( resizeTimer ) {
+
+				clearTimeout( resizeTimer );
+				resizeTimer = undefined;
+
+			}
+
+		}
+
+		function clearScrollTimer() {
+			console.log( "RocketRevealManager: clearScrollTimer" );
+
+			if ( scrollTimer ) {
+
+				clearTimeout( scrollTimer );
+				scrollTimer = undefined;
+
+			}
 
 		}
 
@@ -95,6 +121,15 @@
 		function onResize( e ) {
 			console.log( "RocketRevealManager: onResize" );
 
+			clearResizeTimer();
+			resizeTimer = setTimeout( onResizeTimeout, RESIZE_DELAY );
+
+		}
+
+		function onResizeTimeout() {
+			console.log( "RocketRevealManager: onResizeTimeout" );
+
+			clearResizeTimer();
 			windowHeight = $window.height();
 			update();
 
@@ -103,6 +138,15 @@
 		function onScroll( e ) {
 			console.log( "RocketRevealManager: onScroll" );
 
+			if ( !scrollTimer )
+				scrollTimer = setTimeout( onScrollTimeout, SCROLL_DELAY );
+
+		}
+
+		function onScrollTimeout() {
+			console.log( "RocketRevealManager: onScrollTimeout" );
+
+			clearScrollTimer();
 			windowTop = $window.scrollTop();
 			update();
 
@@ -143,6 +187,9 @@
 			console.log( "RocketRevealManager: disable" );
 
 			enabled = false;
+
+			clearResizeTimer();
+			clearScrollTimer();
 
 			$window.off( "resize", onResize );
 			$window.off( "scroll", onScroll );
@@ -242,8 +289,8 @@
 			console.log( "RocketReveal: init" );
 
 			$container = $( elem );
-			staggerTime = parseFloat( $container.data( "stagger-time" ) );
-			thresholdRatio = parseFloat( $container.data( "threshold-ratio" ) );
+			staggerTime = parseFloat( $container.data( "stagger" ) ) || 0.1;
+			thresholdRatio = parseFloat( $container.data( "threshold" ) ) || 0.9;
 
 			addItems();
 			updateItems();
@@ -253,14 +300,27 @@
 		function addItems() {
 			console.log( "RocketReveal: addItems" );
 
+			var $item;
+
 			items = [];
 			$container.find( "." + STYLE_REVEAL ).not( "." + STYLE_REVEAL_IN ).each( function( i ) {
 
-				items.push( $( this ) );
+				$item = $( this );
+				items.push( $item );
 
 			} );
 
 			console.info( "Added " + items.length + " items..." );
+
+		}
+
+		function getElementOffsetTop( elem ) {
+			//console.log( "RocketReveal: getElementOffsetTop" );
+
+			var itemTransform = elem.css( "transform" ).replace( /[a-zA-Z\(\)\s]/g, "" ).split( "," );
+			var itemTop = elem.offset().top - itemTransform[5];
+
+			return itemTop;
 
 		}
 
@@ -279,13 +339,6 @@
 		// ----- PUBLIC FUNCTIONS ----- //
 		function destroy() {
 			console.log( "RocketReveal: destroy" );
-
-		}
-
-		function execute( func, options ) {
-			console.log( "RocketReveal: execute -> " + func );
-
-			this[ func ].call( this, options );
 
 		}
 
@@ -315,9 +368,9 @@
 				$item = items[i];
 
 				//console.info( $item );
-				//console.info( "---> ITEM TOP: " + $item.offset().top );
+				//console.info( "---> ITEM TOP: " + getElementOffsetTop( $item ) );
 
-				if ( $item.offset().top <= thresholdTop ) {
+				if ( getElementOffsetTop( $item ) <= thresholdTop ) {
 
 					//console.info( "---> ITEM DELAY: ", delay );
 					$item.css( "animation-delay", delay.toString() + "s" );
@@ -350,7 +403,6 @@
 		 *************************************************/
 		return {
 		 	destroy: destroy,
-		 	execute: execute,
 		 	refreshItems: refreshItems,
 		 	updateItems: updateItems
 		}
@@ -360,13 +412,16 @@
 	/*************************************************
 	 * jQUERY PLUGIN
 	 *************************************************/
-	$.fn.rktReveal = function() {
+	$.fn.rktReveal = function( command ) {
 
 		var mgr = RocketRevealSingleton.getInstance();
 
 		this.each( function() {
 
-			mgr.add( this );
+			if ( !command )
+				mgr.add( this );
+			else
+				mgr.execute( command );
 
 		} );
 

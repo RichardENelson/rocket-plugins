@@ -28,26 +28,10 @@ section {
 
 h1, h2, h3, h4, h5, h6, blockquote {
 
-	&:first-child {
-		margin-top: 0;
-	}
 }
 
 p, ol, ul, li, table {
 
-}
-
-.container-fluid {
-
-	.row:first-child {
-
-		[class*=col] {
-
-			p:first-child {
-				margin-top: 0;
-			}
-		}
-	}
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -194,12 +178,12 @@ a {
 }
 
 button {
+	appearance: none;
+	-webkit-appearance: none;
 	border: 0;
 	background-color: transparent;
 	cursor: pointer;
 	outline: none;
-	-webkit-appearance: none;
-	appearance: none;
 
 	&:active,
 	&:focus,
@@ -209,10 +193,7 @@ button {
 }
 
 img {
-	margin-top: $default-margin-top;
-	margin-bottom: $default-margin-bottom;
-	border: 0;
-	padding: 0;
+
 }
 
 label {
@@ -317,9 +298,6 @@ legend {
 
 
 /* ----- MAIN ----- */
-#main {
-	width: 100%;
-}
 
 
 /* ----- MISC ----- */
@@ -328,33 +306,13 @@ legend {
 	margin-right: auto !important;
 }
 
-.center-block {
-	display: block;
-	margin: auto;
-}
-
-.img-responsive {
-	display: block;
-	max-width: 100%;
-	height: auto;
+.hide-overflow {
+	overflow: hidden;
 }
 
 .no-margin {
 	margin: 0 !important;
 }
-
-.pull-left {
-	float: left !important;
-}
-
-.pull-right {
-	float: right !important;
-}
-
-
-
-
-
 
 
 

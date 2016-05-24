@@ -3,9 +3,10 @@
  *************************************************/
 
 footer {
-	height: $footer-height;
+
+	p {
+		font-size: $font-size-0;
+	}
 }
 
-#footer-container {
-	margin: 0 auto;
-}
+

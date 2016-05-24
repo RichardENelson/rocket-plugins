@@ -16,35 +16,24 @@
 
 
 /* ----- GENERAL ----- */
-@import "content/general";
-@import "content/body";
-@import "components/grid";
+@import "general/general";
 
 
 /* ----- COMPONENTS ----- */
 @import "components/themes";
 
 @import "components/alerts";
-@import "components/carousel";
-@import "components/blocks";
-@import "components/button";
-@import "components/fullpage";
 @import "components/text";
 
 
+/* ----- HEADER ----- */
+
+
+/* ----- FOOTER ----- */
+@import "footer/footer";
+
+
 /* ----- CONTENT ----- */
-@import "menu/menu";
-@import "menu/menu-button";
-
-
-/* ----- MODULES ----- */
-@import "modules/home";
-@import "modules/feed";
-@import "modules/career";
-@import "modules/generic";
-@import "modules/loader";
-@import "modules/results";
-@import "modules/events";
 
 
 /* ----- TOUCH ----- */
@@ -56,19 +45,9 @@
 /* ----- NO-TOUCH ----- */
 .no-touch {
 
-	@import "content/general.no-touch";
 	@import "components/alerts.no-touch";
-	@import "components/button.no-touch";
-	@import "components/carousel.no-touch";
-	@import "menu/menu.no-touch";
-	@import "modules/results.no-touch";
 
 }
-
-
-/* ----- NG ANIMATE ----- */
-@import "modules/feed.ng-animate";
-
 
 
 /* ----- XTRA SMALL DEVICES / PHONES ----- */
@@ -81,50 +60,17 @@
 /* ----- SMALL DEVICES / TABLETS ----- */
 @media screen and ( min-width: $screen-width-sm ) {
 
-	@import "content/general.sm";
-	@import "components/grid.sm";
-
-	@import "components/button.sm";
-	@import "components/carousel.sm";
-	@import "components/fullpage.sm";
-
-	@import "menu/menu.sm";
-	@import "menu/menu-button.sm";
-
-	@import "modules/home.sm";
-	@import "modules/feed.sm";
-	//@import "modules/career.sm";
-	@import "modules/results.sm";
-	@import "modules/events.sm";
-
 }
 
 
 /* ----- MEDIUM DEVICES / LAPTOPS ----- */
 @media screen and ( min-width: $screen-width-md ) {
 
-	@import "components/grid.md";
-	@import "components/button.md";
-
-	//@import "modules/home.md";
-	@import "modules/feed.md";
-	@import "modules/career.md";
-	@import "modules/results.md";
-	@import "modules/events.md";
-
 }
 
 
 /* ----- LARGE DEVICES / LAPTOPS ----- */
 @media screen and ( min-width: $screen-width-lg ) {
-
-	@import "components/grid.lg";
-
-	//@import "modules/home.lg";
-	@import "modules/feed.lg";
-	//@import "modules/career.lg";
-	@import "modules/results.lg";
-	@import "modules/events.lg";
 
 }
 

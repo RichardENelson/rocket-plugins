@@ -55,7 +55,8 @@
 			},
 			prod: {
 				files: {
-					"public/common/css/main.css": "public/common/sass/main/main.scss"
+					"public/common/css/main.css": "public/common/sass/main/main.scss",
+					"public/reveal/css/jquery.rkt-reveal.css": "public/reveal/sass/jquery.rkt-reveal.scss"
 				}
 			}
 		},
@@ -74,7 +75,8 @@
 			},
 			build: {
 				files: {
-					"public/common/css/main.min.css": "public/common/css/main.css"
+					"public/common/css/main.min.css": "public/common/css/main.css",
+					"public/reveal/css/jquery.rkt-reveal.min.css": "public/reveal/css/jquery.rkt-reveal.css"
 				}
 			}
 		},
@@ -130,7 +132,7 @@
 	grunt.loadNpmTasks( "grunt-sass" );
 
 	// Register Tasks
-	grunt.registerTask( "init", [ "copy" ] );
+	grunt.registerTask( "init", [ "copy", "buildcss", "uglify" ] );
 	grunt.registerTask( "buildcss", [ "sass", "postcss" ] );
 	grunt.registerTask( "default", [ "buildcss", "uglify" ] );
 

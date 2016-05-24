@@ -1,0 +1,19 @@
+/*************************************************
+ * ROCKET REVEAL
+ *************************************************/
+
+.rkt-reveal {
+	opacity: 0;
+	transform: translateY( 100% );
+	transition-property: opacity, transform;
+	transition-duration: 1s;
+
+	&.rkt-reveal-in {
+		opacity: 1;
+		transform: translateY( 0% );
+	}
+}
+
+
+
+

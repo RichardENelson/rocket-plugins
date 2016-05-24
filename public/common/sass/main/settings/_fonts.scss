@@ -5,80 +5,40 @@
 /* ----- FONT FACE ----- */
 
 
-
 /* ----- NORMAL ----- */
 %font-normal {
-	font-family: "lato", sans-serif;
+	font-family: "Roboto", sans-serif;
 	font-style: normal;
 	font-weight: 400;
 	letter-spacing: 0;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 %font-bold {
-	font-family: "bebas-neue", sans-serif;
+	font-family: "Squada One", sans-serif;
 	font-style: normal;
 	font-weight: 400;
 	letter-spacing: 0;
-	line-height: 0.92;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 /* ----- ITALICS ----- */
 %font-normal-italic {
-	font-family: "lato", sans-serif;
+	font-family: "Roboto", sans-serif;
 	font-style: italic;
 	font-weight: 400;
 	letter-spacing: 0;
+	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 
 /* ----- ICONS ----- */
-@font-face {
-    font-family: "Nike-Glyphicons";
-    src:    url( "../fonts/Nike-Glyphicons.eot?2nmkpa" );
-    src:    url( "../fonts/Nike-Glyphicons.eot?2nmkpa#iefix" ) format( "embedded-opentype" ),
-        	url( "../fonts/Nike-Glyphicons.ttf?2nmkpa" ) format( "truetype" ),
-       		url( "../fonts/Nike-Glyphicons.woff?2nmkpa" ) format( "woff" ),
-        	url( "../fonts/Nike-Glyphicons.svg?2nmkpa#Nike-Glyphicons" ) format( "svg" );
-    font-weight: normal;
-    font-style: normal;
-}
-
-[class^="icon-"],
-[class*=" icon-"] {
-    /* use !important to prevent issues with browser extensions that change fonts */
-    font-family: "Nike-Glyphicons" !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-arrow-left:before {
-    content: "\e900";
-}
-
-.icon-arrow-right:before {
-    content: "\e901";
-}
-
-
-
-
-
-
-
 
 
 
