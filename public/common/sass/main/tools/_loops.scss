@@ -1,0 +1,37 @@
+/*************************************************
+ * TOOLS - LOOPS
+ *************************************************/
+
+@mixin generate-anim( $multiplier:0.1s, $offset:1s, $limit:10 ) {
+
+	@for $i from 0 through $limit {
+
+		.anim-#{$i} {
+
+			animation-delay: $i * $multiplier + $offset;
+
+		}
+	}
+}
+
+@mixin generate-col( $prefix, $num:12 ) {
+
+	@for $i from 1 through $num {
+
+		.col-#{$prefix}-#{$i} {
+			display: block;
+			width: 100% / $num * $i;
+		}
+	}
+}
+
+@mixin generate-col-offset( $prefix, $num:12 ) {
+
+	@for $i from 1 through $num {
+
+		.col-#{$prefix}-offset-#{$i} {
+			margin-left: 100% / $num * $i;
+		}
+	}
+}
+

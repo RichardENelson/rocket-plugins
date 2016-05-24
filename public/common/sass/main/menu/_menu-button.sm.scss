@@ -1,0 +1,44 @@
+/*************************************************
+ * MENU BUTTON - SMALL
+ *************************************************/
+
+#menu-button {
+	width: $menu-button-size-sm;
+	height: $menu-button-size-sm;
+
+	span {
+		margin-top: 7px;
+		margin-bottom: 7px;
+		height: 5px;
+	}
+
+	&.menu-open {
+
+		span {
+
+			//$offsetY: 240%;
+
+			&:nth-child(1) {
+
+			}
+
+			&:nth-child(2) {
+
+			}
+
+			&:nth-child(3) {
+
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

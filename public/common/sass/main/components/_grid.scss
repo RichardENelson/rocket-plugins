@@ -1,0 +1,73 @@
+/*************************************************
+ * GRID
+ *************************************************/
+
+
+/* ----- CONTAINERS ----- */
+[class^=container] {
+	position: relative;
+	top: 0;
+	left: 0;
+
+	width: 100%;
+
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: cover;
+
+	@include clearfix();
+}
+
+.container,
+.container-full {
+	margin: 0 auto;
+	padding-left: $gutter / 2;
+	padding-right: $gutter / 2;
+	max-width: $main-width;
+}
+
+.container-fluid,
+.container-full-fluid {
+
+	> .row {
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+.container-full,
+.container-full-fluid {
+	height: 100%;
+}
+
+
+/* ----- ROWS ----- */
+.row {
+	margin-left: -$gutter / 2;
+	margin-right: -$gutter / 2;
+
+	@include clearfix();
+}
+
+
+/* ----- COLUMNS ----- */
+[class*=col-] {
+	float: left;
+	padding: 0 $gutter / 2;
+}
+
+@include generate-col( "xs", 10 );
+@include generate-col-offset( "xs", 10 );
+
+
+/* ----- MISC ----- */
+.hidden-xs {
+	display: none;
+}
+
+.no-gutter {
+	padding: 0;
+}
+
+
+

@@ -1,0 +1,15 @@
+/*************************************************
+ * BODY
+ *************************************************/
+
+
+body {
+	@include zero();
+	@extend %font-normal;
+	background-color: $color-metal;
+	color: $color-white;
+	transition: opacity $duration-long;
+}
+
+
+

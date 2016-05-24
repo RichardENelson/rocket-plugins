@@ -1,0 +1,24 @@
+/*************************************************
+ * BUTTON - NO-TOUCH
+ *************************************************/
+
+.btn {
+
+}
+
+/* ----- CLOSE ----- */
+.btn-close {
+
+	&:hover:not([disabled]) {
+		opacity: 1;
+	}
+}
+
+/* ----- ARROW ----- */
+.btn-arrow {
+
+	&:hover:not([disabled]) {
+		color: $color-metal;
+		text-decoration: none;
+	}
+}

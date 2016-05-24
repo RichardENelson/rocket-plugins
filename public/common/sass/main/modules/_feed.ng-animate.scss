@@ -1,0 +1,93 @@
+/*************************************************
+ * FEED - NG-ANIMATE
+ *************************************************/
+
+
+/* ----- ANIMATIONS ----- */
+.feed {
+
+	.feed-cell {
+		overflow: hidden;
+		z-index: 100;
+
+		&.ng-enter {
+			animation-duration: $duration-long;
+			visibility: hidden;
+
+			.feed-item {
+				backface-visibility: hidden;
+				perspective: 1000px;
+				transform-style: preserve-3d;
+			}
+		}
+
+		&.ng-enter-active {
+			visibility: visible;
+
+			.feed-item {
+
+				&.slide-in-top {
+					animation-name: slide-in-top;
+				}
+
+				&.slide-in-bottom {
+					animation-name: slide-in-bottom;
+				}
+
+				&.slide-in-left {
+					animation-name: slide-in-left;
+				}
+
+				&.slide-in-right {
+					animation-name: slide-in-right;
+				}
+			}
+		}
+
+		&.ng-leave {
+			animation-duration: $duration-long;
+			z-index: 99;
+
+			.feed-item {
+				backface-visibility: hidden;
+				perspective: 1000px;
+				transform-style: preserve-3d;
+			}
+		}
+
+		&.ng-leave-active {
+
+			.feed-item {
+
+			}
+		}
+	}
+}
+
+
+/* ----- TRANSITIONS ----- */
+#feed-loader {
+	transition: opacity $duration-normal;
+	opacity: 1;
+
+	&.ng-hide {
+		opacity: 0;
+	}
+
+	&.ng-hide-add,
+	&.ng-hide-remove {
+		display: block !important;
+	}
+}
+
+
+/* ----- BASELINE ----- */
+.feed-item {
+	animation-duration: 0s;
+	animation-fill-mode: both;
+	animation-timing-function: cubic-bezier( 0.165, 0.840, 0.440, 1.000 ); // Ceasar: easeOutQuart
+
+	&.animated {
+		animation-duration: inherit;
+	}
+}

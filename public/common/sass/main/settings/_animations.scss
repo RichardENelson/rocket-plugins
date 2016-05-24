@@ -1,0 +1,76 @@
+/*************************************************
+ * SETTINGS - ANIMATIONS
+ *************************************************/
+
+
+/* ----- FADE ----- */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+
+/* ----- ROTATE ----- */
+@keyframes rotate-full {
+	from {
+		transform: rotate( 0deg );
+	}
+	to {
+		transform: rotate( 359deg );
+	}
+}
+
+
+/* ----- SLIDE ----- */
+@keyframes slide-in-top {
+	from {
+		transform: translate3d( 0%, -100%, 0px );
+	}
+	to {
+		transform: translate3d( 0%, 0%, 0px );
+	}
+}
+
+@keyframes slide-in-bottom {
+	from {
+		transform: translate3d( 0%, 100%, 0px );
+	}
+	to {
+		transform: translate3d( 0%, 0%, 0px );
+	}
+}
+
+@keyframes slide-in-left {
+	from {
+		transform: translate3d( -100%, 0%, 0px );
+	}
+	to {
+		transform: translate3d( 0%, 0%, 0px );
+	}
+}
+
+@keyframes slide-in-right {
+	from {
+		transform: translate3d( 100%, 0%, 0px );
+	}
+	to {
+		transform: translate3d( 0%, 0%, 0px );
+	}
+}
+
+
+/* ----- SLIDE & FADE ----- */
+@keyframes slade-in-bottom {
+	from {
+		opacity: 0;
+		transform: translateY( 100px );
+	}
+	to {
+		opacity: 1;
+		transform: translateY( 0px );
+	}
+}

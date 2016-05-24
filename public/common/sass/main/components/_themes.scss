@@ -1,0 +1,12 @@
+/*************************************************
+ * BACKGROUND COLORS
+ *************************************************/
+
+// Parameters: name, background color, foreground color, heading color, link color
+@include theme( black, $color-black, $color-white, inherit, $color-teal );
+@include theme( cobalt, $color-cobalt, $color-white, $color-white, $color-orange );
+@include theme( gray, $color-gray-light, $color-gray-darker, $color-orange, $color-orange );
+@include theme( metal, $color-metal, $color-white, $color-trans-metal, $color-orange );
+@include theme( orange, $color-orange, $color-white, $color-metal, $color-white );
+@include theme( steel, $color-steel, $color-gray-darker, $color-orange, $color-orange );
+@include theme( white, $color-white, $color-gray-darker, $color-orange );

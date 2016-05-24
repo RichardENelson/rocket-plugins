@@ -1,0 +1,19 @@
+{
+	"name": "rocket-plugins",
+	"authors": [
+		"Richard Nelson <sc2071@gmail.com>"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/SpaceCowboy2071/rocket-plugins",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components"
+	],
+	"dependencies": {
+		"bootstrap": "~3.3.6",
+		"components-font-awesome": "~4.6.3",
+		"jquery": "~1.12.4",
+		"modernizr": "~2.8.3"
+	}
+}

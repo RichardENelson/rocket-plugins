@@ -1,0 +1,41 @@
+/*************************************************
+ * GRID - LARGE
+ *************************************************/
+
+
+/* ----- CONTAINERS ----- */
+[class^=container] {
+
+}
+
+.container {
+
+}
+
+.container-fluid {
+
+}
+
+
+/* ----- ROWS ----- */
+.row {
+
+}
+
+
+/* ----- COLUMNS ----- */
+[class*=col-] {
+
+}
+
+@include generate-col( "lg", 10 );
+@include generate-col-offset( "lg", 10 );
+
+
+/* ----- MISC ----- */
+.hidden-lg {
+	display: none;
+}
+
+
+

@@ -1,0 +1,29 @@
+/*************************************************
+ * BUTTON
+ *************************************************/
+
+
+/* ----- ALIGNMENT ----- */
+.text-center {
+	text-align: center;
+}
+
+.text-right {
+	text-align: right;
+}
+
+
+/* ----- COLOR ----- */
+.text-gold {
+	color: $color-gold;
+}
+
+.text-silver {
+	color: $color-silver;
+}
+
+
+/* ----- MISC ----- */
+.unit {
+	font-size: 0.7em;
+}

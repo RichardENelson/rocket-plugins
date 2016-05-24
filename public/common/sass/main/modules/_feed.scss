@@ -1,0 +1,181 @@
+/*************************************************
+ * FEED
+ *************************************************/
+
+.feed {
+	background-color: $color-metal;
+}
+
+.feed-cell {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 0;
+	background-color: transparent;
+}
+
+#static-cell-0 {
+	display: none;
+}
+
+#static-cell-1 {
+	display: none;
+}
+
+#static-cell-2 {
+	display: none;
+}
+
+#feed-cell-0 {
+	top: percentage( 0 / 2 );
+	left: percentage( 0 / 2 );
+	width: percentage( 1 / 2 );
+	height: percentage( 1 / 2 );
+}
+
+#feed-cell-1 {
+	top: percentage( 0 / 2 );
+	left: percentage( 1 / 2 );
+	width: percentage( 1 / 2 );
+	height: percentage( 1 / 2 );
+}
+
+#feed-cell-2 {
+	top: percentage( 1 / 2 );
+	left: percentage( 1 / 2 );
+	width: percentage( 1 / 2 );
+	height: percentage( 1 / 2 );
+}
+
+#feed-cell-3 {
+	top: percentage( 1 / 2 );
+	left: percentage( 0 / 2 );
+	width: percentage( 1 / 2 );
+	height: percentage( 1 / 2 );
+}
+
+#feed-cell-4 {
+	display: none;
+}
+
+#feed-cell-5 {
+	display: none;
+}
+
+#feed-cell-6 {
+	display: none;
+}
+
+#feed-cell-7 {
+	display: none;
+}
+
+.feed-item {
+	display: flex;
+	align-items: center;
+
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	> .img-responsive {
+		padding: $gutter;
+	}
+}
+
+.feed-item-platform {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 36px;
+	height: 36px;
+	text-decoration: none !important;
+
+	i {
+		display: block;
+		padding: 4px;
+		width: 100%;
+		height: 100%;
+		color: $color-white;
+		font-size: 28px;
+		line-height: 1;
+		text-align: center;
+
+		&.fa-instagram {
+			background-color: $color-instagram;
+		}
+
+		&.fa-twitter {
+			background-color: $color-twitter;
+		}
+	}
+}
+
+.feed-item-content {
+	padding: $gutter / 2;
+	width: 100%;
+}
+
+.feed-item-content-body {
+	@extend %font-normal;
+	margin: 0 0 1em;
+	color: inherit;
+	font-size: $font-size-1;
+	line-height: $default-line-height;
+}
+
+.feed-item-content-footer {
+	@extend %font-normal;
+	margin: 0;
+	color: inherit;
+	font-size: $font-size-0;
+	opacity: 0.7;
+
+	span {
+		margin-right: 1em;
+
+		i {
+			margin-right: 0.3em;
+		}
+	}
+}
+
+/* ----- FEED LOADER ----- */
+/*
+#feed-loader {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 101;
+
+	width: 100%;
+	height: 100%;
+
+	background-color: $color-metal;
+
+	img {
+		$size: 70px;
+
+		position: absolute;
+		top: 50%;
+		left: 50%;
+
+		margin: 0;
+		margin-top: -$size / 2;
+		margin-left: -$size / 2;
+
+		width: $size;
+		height: $size;
+
+		animation: rotate-full $duration-normal linear infinite;
+		transform-origin: 50% 50%;
+	}
+}
+*/
+
+
+
+
+
+

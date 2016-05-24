@@ -1,0 +1,55 @@
+/*************************************************
+ * MENU BUTTON
+ *************************************************/
+
+#menu-button {
+	@include zero();
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: $menu-button-z;
+	width: $menu-button-size;
+	height: $menu-button-size;
+	background-color: rgba( $color-orange, 0.9 );
+	outline: 0;
+
+	span {
+		display: block;
+		margin: 4px auto;
+		width: 50%;
+		height: 3px;
+		background-color: $color-white;
+		transform-origin: 50% 50%;
+		transition: all $duration-normal;
+	}
+
+	&.menu-open {
+
+		span {
+
+			$offsetY: 240%;
+
+			&:nth-child(1) {
+				transform: translateY( $offsetY ) rotate( 45deg );
+			}
+
+			&:nth-child(2) {
+				opacity: 0;
+			}
+
+			&:nth-child(3) {
+				transform: translateY( -$offsetY ) rotate( -45deg );
+			}
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+

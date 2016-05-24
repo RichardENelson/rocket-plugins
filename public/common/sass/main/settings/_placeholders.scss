@@ -1,0 +1,53 @@
+/*************************************************
+ * SETTINGS - PLACEHOLDERS
+ *************************************************/
+
+%horz-list {
+	font-size: 0;
+	list-style-type: none;
+	text-align: center;
+}
+
+%horz-list-item {
+	display: inline-block;
+	line-height: 1;
+	text-align: left;
+
+	a {
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+%vert-list {
+	list-style-type: none;
+}
+
+%vert-list-item {
+	line-height: 1;
+	text-align: left;
+
+	a {
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

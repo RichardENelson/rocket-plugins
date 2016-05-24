@@ -1,0 +1,96 @@
+/*************************************************
+ * BUTTON
+ *************************************************/
+
+.btn {
+	@include zero();
+	display: inline-block;
+	position: relative;
+
+	color: $color-orange;
+	font-size: $font-size-5;
+	line-height: 1;
+	outline: none;
+	text-align: center;
+	text-decoration: none !important;
+
+	&:active,
+	&:active:focus,
+	&:focus,
+	&:hover {
+		color: $color-orange;
+		box-shadow: none;
+		outline: none;
+		text-decoration: none;
+	}
+
+	&[disabled] {
+		cursor: default;
+		-webkit-filter: grayscale( 70% );
+   		filter: grayscale( 70% );
+   		opacity: 0.3;
+	}
+}
+
+
+/* ----- CLOSE ----- */
+.btn-close {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 0;
+	width: auto;
+	background-color: transparent;
+	color: inherit;
+	font-size: $font-size-5;
+	text-align: center;
+	opacity: 0.5;
+	transition: opacity $duration-normal;
+
+	&:after {
+		top: 0;
+		right: 0;
+		content: "\f00d";
+		font-family: "FontAwesome";
+		font-style: normal;
+		font-weight: normal;
+	}
+
+	&:focus,
+	&:hover {
+		color: inherit;
+	}
+}
+
+
+/* ----- ARROW ----- */
+.btn-arrow {
+	display: block;
+	font-size: $font-size-2;
+	line-height: 1;
+	text-decoration: none;
+	transition: color $duration-normal;
+	white-space: nowrap;
+
+	i {
+		vertical-align: -20%;
+
+		&.icon-arrow-right {
+
+		}
+
+		&.icon-arrow-left {
+
+		}
+	}
+
+	span {
+		display: inline-block;
+		margin: 0 0.5em;
+		vertical-align: middle;
+		white-space: normal;
+	}
+}
+
+

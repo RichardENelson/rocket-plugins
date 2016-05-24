@@ -1,0 +1,22 @@
+{
+	"name": "rocket-plugins",
+	"version": "0.0.1",
+	"private": true,
+	"devDependencies": {
+		"autoprefixer": "*",
+		"bower": "*",
+		"cssnano": "*",
+		"grunt": "*",
+		"grunt-contrib-copy": "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-watch": "*",
+		"grunt-notify": "*",
+		"grunt-postcss": "*",
+		"grunt-sass": "*"
+	},
+	"peerDependencies": {
+		"grunt-cli": "*"
+	},
+	"dependencies": {
+	}
+}

@@ -1,0 +1,56 @@
+/*************************************************
+ * TOOLS - MIXINS
+ *************************************************/
+
+@mixin clearfix() {
+
+	&:before,
+	&:after {
+		content: " ";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin gpu() {
+	backface-visibility: hidden;
+	perspective: 1000px;
+	transform: translateZ( 0px );
+}
+
+@mixin theme( $name, $bg-color, $color, $heading-color: inherit, $link-color: $color-orange ) {
+
+	.theme-#{$name} {
+
+		/* Foreground Color */
+		color: $color;
+
+		/* Heading Color */
+		h1, h2, h3, h4, h5, h6 {
+			color: $heading-color;
+		}
+
+		/* Link Color */
+		a {
+			color: $link-color;
+		}
+
+		/* Background Color */
+		background-color: $bg-color;
+
+	}
+
+}
+
+@mixin zero() {
+	margin: 0;
+	border: 0;
+	padding: 0;
+	appearance: none;
+	-webkit-appearance: none;
+	box-shadow: none;
+	box-sizing: border-box;
+}

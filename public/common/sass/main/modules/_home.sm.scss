@@ -1,0 +1,19 @@
+/*************************************************
+ * HOME - SMALL
+ *************************************************/
+
+.home {
+
+	.block {
+		top: 50%;
+		right: $gutter;
+		margin-top: -$block-size-large - $gutter / 2;
+		margin-right: 0;
+		width: $block-size-large;
+		height: $block-size-large;
+
+		.block-content {
+			font-size: $font-size-11;
+		}
+	}
+}
