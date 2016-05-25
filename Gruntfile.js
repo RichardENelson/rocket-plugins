@@ -56,6 +56,7 @@
 			prod: {
 				files: {
 					"public/common/css/main.css": "public/common/sass/main/main.scss",
+					"public/parallax/css/jquery.rkt-parallax.css": "public/parallax/sass/jquery.rkt-parallax.scss",
 					"public/reveal/css/jquery.rkt-reveal.css": "public/reveal/sass/jquery.rkt-reveal.scss"
 				}
 			}
@@ -76,6 +77,7 @@
 			build: {
 				files: {
 					"public/common/css/main.min.css": "public/common/css/main.css",
+					"public/parallax/css/jquery.rkt-parallax.min.css": "public/parallax/css/jquery.rkt-parallax.css",
 					"public/reveal/css/jquery.rkt-reveal.min.css": "public/reveal/css/jquery.rkt-reveal.css"
 				}
 			}

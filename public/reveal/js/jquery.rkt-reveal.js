@@ -69,8 +69,8 @@
 		var $window;
 		var containers;
 		var enabled;
-		var scrollTimer;
 		var resizeTimer;
+		var scrollTimer;
 		var windowHeight;
 		var windowTop;
 
