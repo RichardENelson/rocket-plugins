@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.2
+ * @version 0.0.3
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -280,6 +280,7 @@
 
 
 		// ----- PRIVATE CONSTANTS ----- //
+		var EVENT_ANIMATION_TRANSITION_END = "animationend webkitAnimationEnd oanimationend MSAnimationEnd transitionend webkitTransitionEnd otransitionend MSTransitionEnd";
 		var STYLE_REVEAL = "rkt-reveal";
 		var STYLE_REVEAL_IN = "rkt-reveal-in";
 
@@ -340,6 +341,14 @@
 		function destroy() {
 			console.log( "RocketReveal: destroy" );
 
+			$container.find( "." + STYLE_REVEAL ).not( "." + STYLE_REVEAL_IN ).each( function( i ) {
+
+				$( this ).off( EVENT_ANIMATION_TRANSITION_END );
+
+			} );
+
+			items = undefined;
+
 		}
 
 		function refreshItems() {
@@ -375,9 +384,24 @@
 					//console.info( "---> ITEM DELAY: ", delay );
 					$item.css( "animation-delay", delay.toString() + "s" );
 					$item.css( "transition-delay", delay.toString() + "s" );
-					$item.addClass( STYLE_REVEAL_IN );
 					delay += staggerTime;
 					lastIndex = i;
+
+					var onEnd = function( e ) {
+						console.log( "RocketReveal: onEnd" );
+
+						var $target = $( e.currentTarget );
+
+						$target.off( EVENT_ANIMATION_TRANSITION_END, onEnd );
+						$target.css( "animation-delay", "" );
+						$target.css( "transition-delay", "" );
+						$target.removeClass( STYLE_REVEAL )
+						$target.removeClass( STYLE_REVEAL_IN );
+
+					}
+
+					$item.on( EVENT_ANIMATION_TRANSITION_END, onEnd );
+					$item.addClass( STYLE_REVEAL_IN );
 
 				}
 

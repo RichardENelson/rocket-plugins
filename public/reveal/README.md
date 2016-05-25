@@ -59,6 +59,9 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 ## History
+### v0.0.3
+Added event handling for animation/transition end, in which the reveal classes are removed.  This will allow the browser to display the items without using the GPU if desired.
+
 ### v0.0.2
 Added custom debouncing and throlling of resize and scroll events.  Added fix so that transitions can be used instead of animations.
 
