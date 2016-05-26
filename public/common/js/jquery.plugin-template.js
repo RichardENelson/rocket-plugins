@@ -119,7 +119,10 @@
 	/*************************************************
 	 * jQUERY PLUGIN
 	 *************************************************/
-	$.fn.pluginName = function( param1, param2 ) {
+	$.fn.pluginName = function() {
+
+		var param0 = arguments[0]; // Command or Options
+		var param1 = arguments[1]; // Options
 
 		this.each( function() {
 
@@ -129,11 +132,11 @@
 
 			if ( obj ) {
 
-				obj.execute( param1, param2 );
+				obj.execute( param0, param1 );
 
 			} else {
 
-				obj = new ClassName( this, param1 );
+				obj = new ClassName( this, param0 );
 				$item.data( pluginKey, obj );
 
 			}
