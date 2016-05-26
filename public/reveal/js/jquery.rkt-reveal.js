@@ -130,7 +130,6 @@
 			console.log( "RocketRevealManager: onResizeTimeout" );
 
 			clearResizeTimer();
-			windowHeight = $window.height();
 			update();
 
 		}
@@ -147,7 +146,6 @@
 			console.log( "RocketRevealManager: onScrollTimeout" );
 
 			clearScrollTimer();
-			windowTop = $window.scrollTop();
 			update();
 
 		}
@@ -227,6 +225,8 @@
 
 		function update() {
 			console.log( "RocketRevealManager: update" );
+
+			windowTop = $window.scrollTop();
 
 			$.each( containers, function( i ) {
 
@@ -436,16 +436,19 @@
 	/*************************************************
 	 * jQUERY PLUGIN
 	 *************************************************/
-	$.fn.rktReveal = function( command ) {
+	$.fn.rktReveal = function() {
 
 		var mgr = RocketRevealSingleton.getInstance();
 
+		var param0 = arguments[0];
+		var param1 = arguments[1];
+
 		this.each( function() {
 
-			if ( !command )
+			if ( typeof( param0 ) !== "string" )
 				mgr.add( this );
 			else
-				mgr.execute( command );
+				mgr.execute( param0, param1 );
 
 		} );
 
