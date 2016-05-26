@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.3
+ * @version 0.0.2
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -31,6 +31,13 @@
 		 *************************************************/
 
 		// ----- PUBLIC FUNCTIONS ----- //
+		function destroyInstance() {
+			console.log( "RocketParallaxSingleton: destroyInstance" );
+
+			instance = undefined;
+
+		}
+
 		function getInstance() {
 			console.log( "RocketParallaxSingleton: getInstance" );
 
@@ -49,6 +56,7 @@
 		 * RETURN
 		 *************************************************/
 		return {
+		 	destroyInstance: destroyInstance,
 		 	getInstance: getInstance
 		}
 
@@ -85,7 +93,6 @@
 
 		// ----- PRIVATE CONSTANTS ----- //
 		var RESIZE_DELAY = 250;
-		var SCROLL_DELAY = 250;
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
@@ -116,28 +123,19 @@
 
 		}
 
-		function clearScrollTimer() {
-			//console.log( "RocketParallaxManager: clearScrollTimer" );
-
-			if ( scrollTimer ) {
-
-				clearTimeout( scrollTimer );
-				scrollTimer = undefined;
-
-			}
-
-		}
-
 		function manageBounds() {
 			console.log( "RocketParallaxManager: manageBounds" );
 
 			windowHeight = $( window ).height();
 
-			$.each( images, function( i, img ) {
+			var i = 0;
+			var length = images.length;
 
-				img.updateBounds( windowHeight );
+			for ( i; i < length; i++ ) {
 
-			} );
+				images[i].updateBounds( windowHeight );
+
+			};
 
 		}
 
@@ -147,11 +145,14 @@
 			docTop = $( document ).scrollTop();
 			docBottom = docTop + windowHeight;
 
-			$.each( images, function( i, img ) {
+			var i = 0;
+			var length = images.length;
 
-				img.updatePosition( docTop, docBottom );
+			for ( i; i < length; i++ ) {
 
-			} );
+				images[i].updatePosition( docTop, docBottom );
+
+			};
 
 		}
 
@@ -177,16 +178,7 @@
 		function onScroll( e ) {
 			//console.log( "RocketParallaxManager: onScroll" );
 
-			if ( !scrollTimer )
-				scrollTimer = setTimeout( onScrollTimeout, SCROLL_DELAY );
-
-		}
-
-		function onScrollTimeout() {
-			//console.log( "RocketParallaxManager: onScrollTimeout" );
-
-			clearScrollTimer();
-			managePositions();
+			requestAnimationFrame( managePositions );
 
 		}
 
@@ -200,10 +192,12 @@
 		// ----- PUBLIC CONSTANTS ----- //
 
 		// ----- PUBLIC FUNCTIONS ----- //
-		function add( elem ) {
+		function add( elem, options ) {
 			console.log( "RocketParallaxManager: add" );
 
-			var image = new RocketParallaxImage( elem, docTop, docBottom, windowHeight );
+			var bleed = ( options ) ? options.bleed : undefined;
+
+			var image = new RocketParallaxImage( elem, docTop, docBottom, windowHeight, bleed );
 			images.push( image );
 
 		}
@@ -213,11 +207,14 @@
 
 			disable();
 
-			$.each( images, function( i ) {
+			var i = 0;
+			var length = images.length;
 
-				images[ i ].destroy();
+			for ( i; i < length; i++ ) {
 
-			} );
+				images[i].destroy();
+
+			};
 
 		}
 
@@ -227,7 +224,6 @@
 			enabled = false;
 
 			clearResizeTimer();
-			clearScrollTimer();
 
 			$window.off( "resize", onResize );
 			$window.off( "scroll", onScroll );
@@ -278,7 +274,7 @@
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
-	var RocketParallaxImage = function( elem, docTop, docBottom, windowHeight ) {
+	var RocketParallaxImage = function( elem, docTop, docBottom, windowHeight, bleed ) {
 		console.log( "new RocketParallaxImage" );
 
 
@@ -289,8 +285,6 @@
 		// ----- PRIVATE VARS ----- //
 		var $container;
 		var $image;
-
-		var bleed;
 
 		var containerWidth;
 		var containerHeight;
@@ -303,18 +297,19 @@
 		var imageBleed;
 		var imagePercentY;
 
+		var minBleed;
 		var naturalWidth;
 		var naturalHeight;
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
-		function init( elem, docTop, docBottom, windowHeight ) {
-			console.log( "RocketParallaxImage: init", docTop, docBottom, windowHeight );
+		function init( elem, docTop, docBottom, windowHeight, bleed ) {
+			console.log( "RocketParallaxImage: init", docTop, docBottom, windowHeight, bleed );
 
 			// Vars
 			$image = $( elem );
 			$container = $image.parent();
-			bleed = parseInt( $image.data( "bleed" ) ) || 100;
+			minBleed = bleed || parseInt( $image.data( "bleed" ) ) || 100;
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
 			isLoaded = ( naturalWidth && naturalHeight );
@@ -352,11 +347,7 @@
 
 			// Vars
 			var fillWidth = containerWidth;
-			var fillHeight = containerHeight + bleed * 2;
-
-			console.info( "Container:", containerWidth, containerHeight );
-			console.info( "Fill:", fillWidth, fillHeight );
-			console.info( "Natural:", naturalWidth, naturalHeight );
+			var fillHeight = containerHeight + minBleed * 2;
 
 			var nWidth;
 			var nHeight;
@@ -394,6 +385,11 @@
 				top: nY
 			} );
 
+			//console.info( "Container:", containerWidth, containerHeight );
+			//console.info( "Fill:", fillWidth, fillHeight );
+			//console.info( "Natural:", naturalWidth, naturalHeight );
+			//console.info( "New Dimensions:", nWidth, nHeight );
+
 		}
 
 		function updateTransform() {
@@ -404,7 +400,7 @@
 				var imageTop = -imageBleed * 2 * imagePercentY;
 				$image.css( { transform: "translate3d( 0px, " + imageTop + "px, 0px )" } );
 
-				console.info( "Image Top:", imageTop );
+				//console.info( "Image Percent Y:", imagePercentY, " - Image Top:", imageTop );
 
 			}
 
@@ -438,6 +434,14 @@
 		function destroy() {
 			console.log( "RocketParallaxImage: destroy" );
 
+			$image.css( {
+				width: "",
+				height: "",
+				left: "",
+				top: "",
+				transform: ""
+			} );
+
 		}
 
 		function execute( func, options ) {
@@ -456,7 +460,9 @@
 			containerTop = $container.offset().top;
 			containerBottom = containerTop + containerHeight;
 
-			containerRange = windowHeight + containerHeight * 2;
+			containerRange = windowHeight + containerHeight;
+
+			//console.info( containerHeight, containerTop, containerBottom, containerRange );
 
 		}
 
@@ -479,7 +485,7 @@
 		/*************************************************
 		 * CALL
 		 *************************************************/
-		init( elem, docTop, docBottom, windowHeight );
+		init( elem, docTop, docBottom, windowHeight, bleed );
 
 
 		/*************************************************
@@ -498,16 +504,27 @@
 	/*************************************************
 	 * jQUERY PLUGIN
 	 *************************************************/
-	$.fn.rktParallax = function( command ) {
+	$.fn.rktParallax = function() {
 
 		var mgr = RocketParallaxSingleton.getInstance();
 
+		var param0 = arguments[0];
+		var param1 = arguments[1];
+
 		this.each( function() {
 
-			if ( !command )
-				mgr.add( this );
-			else
-				mgr.execute( command );
+			if ( typeof( param0 ) !== "string" ) {
+
+				mgr.add( this, param0 );
+
+			} else {
+
+				mgr.execute( param0, param1 );
+
+				if ( param0 === "destroy" )
+					RocketParallaxSingleton.destroyInstance();
+
+			}
 
 		} );
 

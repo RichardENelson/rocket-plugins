@@ -4,7 +4,10 @@
 
 
 .hero {
-	position: relative;
-	height: $hero-height;
-	overflow: hidden;
+
+	[class*=col] {
+		position: relative;
+		height: $hero-height;
+		overflow: hidden;
+	}
 }

@@ -19,6 +19,7 @@
 		console.log( "init" );
 
 		$( ".rkt-parallax" ).rktParallax();
+		//$( ".rkt-parallax" ).rktParallax( { bleed: 500 } );
 
 	}
 
