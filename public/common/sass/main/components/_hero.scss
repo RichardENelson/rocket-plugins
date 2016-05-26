@@ -9,5 +9,8 @@
 		position: relative;
 		height: $hero-height;
 		overflow: hidden;
+
+		backface-visibility: hidden;
+		perspective: 1000px;
 	}
 }

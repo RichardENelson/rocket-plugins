@@ -98,6 +98,9 @@
 					"public/common/js/vendor/modernizr-2.8.3.min.js": [
 						"bower_components/modernizr/modernizr.js"
 					],
+					"public/parallax/js/jquery.rkt-parallax.min.js": [
+						"public/parallax/js/jquery.rkt-parallax.js"
+					],
 					"public/reveal/js/jquery.rkt-reveal.min.js": [
 						"public/reveal/js/jquery.rkt-reveal.js"
 					]
@@ -108,7 +111,9 @@
 		watch: {
 			css: {
 				files: [
-					"public/common/sass/**/*.scss"
+					"public/common/sass/**/*.scss",
+					"public/parallax/sass/**/*.scss",
+					"public/reveal/sass/**/*.scss",
 				],
 				tasks: [ "sass", "notify:css" ]
 			}

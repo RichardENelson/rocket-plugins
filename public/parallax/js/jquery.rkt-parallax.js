@@ -134,6 +134,7 @@
 			for ( i; i < length; i++ ) {
 
 				images[i].updateBounds( windowHeight );
+				images[i].updateImage();
 
 			};
 
@@ -159,7 +160,7 @@
 
 		// ----- PRIVATE EVENT LISTENERS ----- //
 		function onResize( e ) {
-			//console.log( "RocketParallaxManager: onResize" );
+			console.log( "RocketParallaxManager: onResize" );
 
 			clearResizeTimer();
 			resizeTimer = setTimeout( onResizeTimeout, RESIZE_DELAY );
@@ -167,7 +168,7 @@
 		}
 
 		function onResizeTimeout() {
-			//console.log( "RocketParallaxManager: onResizeTimeout" );
+			console.log( "RocketParallaxManager: onResizeTimeout" );
 
 			clearResizeTimer();
 			manageBounds();
@@ -342,56 +343,6 @@
 
 		}
 
-		function updateImage() {
-			console.log( "RocketParallaxImage: updateImage" );
-
-			// Vars
-			var fillWidth = containerWidth;
-			var fillHeight = containerHeight + minBleed * 2;
-
-			var nWidth;
-			var nHeight;
-			var nX;
-			var nY;
-
-			// Fill Width, Crop Height
-			if ( naturalWidth / naturalHeight < fillWidth / fillHeight ) {
-
-				nWidth = fillWidth;
-				nHeight = fillWidth * naturalHeight / naturalWidth;
-
-				nX = 0;
-				nY = 0;
-
-			// Fill Height, Crop Width
-			} else {
-
-				nWidth = fillHeight * naturalWidth / naturalHeight;
-				nHeight = fillHeight;
-
-				nX = -( nWidth - fillWidth ) / 2;
-				nY = 0;
-
-			}
-
-			// Set Image Bleed
-			imageBleed = ( nHeight - containerHeight ) / 2;
-
-			// Set CSS
-			$image.css( {
-				width: nWidth,
-				height: nHeight,
-				left: nX,
-				top: nY
-			} );
-
-			//console.info( "Container:", containerWidth, containerHeight );
-			//console.info( "Fill:", fillWidth, fillHeight );
-			//console.info( "Natural:", naturalWidth, naturalHeight );
-			//console.info( "New Dimensions:", nWidth, nHeight );
-
-		}
-
 		function updateTransform() {
 			console.log( "RocketParallaxImage: updateTransform" );
 
@@ -466,6 +417,56 @@
 
 		}
 
+		function updateImage() {
+			console.log( "RocketParallaxImage: updateImage" );
+
+			// Vars
+			var fillWidth = containerWidth;
+			var fillHeight = containerHeight + minBleed * 2;
+
+			var nWidth;
+			var nHeight;
+			var nX;
+			var nY;
+
+			// Fill Width, Crop Height
+			if ( naturalWidth / naturalHeight < fillWidth / fillHeight ) {
+
+				nWidth = fillWidth;
+				nHeight = fillWidth * naturalHeight / naturalWidth;
+
+				nX = 0;
+				nY = 0;
+
+			// Fill Height, Crop Width
+			} else {
+
+				nWidth = fillHeight * naturalWidth / naturalHeight;
+				nHeight = fillHeight;
+
+				nX = -( nWidth - fillWidth ) / 2;
+				nY = 0;
+
+			}
+
+			// Set Image Bleed
+			imageBleed = ( nHeight - containerHeight ) / 2;
+
+			// Set CSS
+			$image.css( {
+				width: nWidth,
+				height: nHeight,
+				left: nX,
+				top: nY
+			} );
+
+			//console.info( "Container:", containerWidth, containerHeight );
+			//console.info( "Fill:", fillWidth, fillHeight );
+			//console.info( "Natural:", naturalWidth, naturalHeight );
+			//console.info( "New Dimensions:", nWidth, nHeight );
+
+		}
+
 		function updatePosition( docTop, docBottom ) {
 			console.log( "RocketParallaxImage: updatePosition", docTop, docBottom );
 
@@ -495,6 +496,7 @@
 		 	destroy: destroy,
 		 	execute: execute,
 		 	updateBounds: updateBounds,
+		 	updateImage: updateImage,
 		 	updatePosition: updatePosition
 		}
 
