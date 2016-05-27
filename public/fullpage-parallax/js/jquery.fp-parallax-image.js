@@ -1,7 +1,7 @@
 /**
  * @title FullpageJS Parallax
  * @description A helper plugin to parallax scroll images as sections transition up/down.
- * @version 0.0.1
+ * @version 0.0.2
  * @author Richard Nelson
  * @email richard.nelson@fuelintegrated.com
  */
@@ -13,7 +13,7 @@
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
-	var FullpageParallaxImage = function( elem ) {
+	var FullpageParallaxImage = function( elem, options ) {
 		console.log( "new FullpageParallaxImage" );
 
 
@@ -27,36 +27,35 @@
 
 		var containerWidth;
 		var containerHeight;
-		var containerTop;
-		var containerBottom;
-		var containerRange;
 
 		var isLoaded;
 
 		var imageBleed;
 		var imagePercentY;
 
+		var minBleed;
 		var naturalWidth;
 		var naturalHeight;
-
-		var parallaxBleedMin;
 
 
 		// ----- PRIVATE CONSTANTS ----- //
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
-		function init( elem ) {
+		function init( elem, options ) {
 			console.log( "FullpageParallaxImage: init" );
 
 			// Vars
 			$image = $( elem );
 			$container = $image.parent();
-			parallaxBleedMin = parseInt( $image.data( "parallax-bleed-min" ) ) || 100;
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
 			isLoaded = ( naturalWidth && naturalHeight );
 			imagePercentY = 1;
+
+			// Minimum Bleed
+			var bleed = ( options ) ? options.bleed : undefined;
+			minBleed = bleed || parseInt( $image.data( "bleed" ) ) || 100;
 
 			// Style Container
 			$container.css( {
@@ -101,11 +100,7 @@
 
 			// Vars
 			var fillWidth = containerWidth;
-			var fillHeight = containerHeight + parallaxBleedMin * 2;
-
-			console.info( "Container:", containerWidth, containerHeight );
-			console.info( "Fill:", fillWidth, fillHeight );
-			console.info( "Natural:", naturalWidth, naturalHeight );
+			var fillHeight = containerHeight + minBleed * 2;
 
 			var nWidth;
 			var nHeight;
@@ -142,6 +137,10 @@
 				left: nX,
 				top: nY
 			} );
+
+			console.info( "Container:", containerWidth, containerHeight );
+			console.info( "Fill:", fillWidth, fillHeight );
+			console.info( "Natural:", naturalWidth, naturalHeight );
 
 		}
 
@@ -229,7 +228,7 @@
 		/*************************************************
 		 * CALL
 		 *************************************************/
-		init( elem );
+		init( elem, options );
 
 
 		/*************************************************
@@ -247,7 +246,10 @@
 	/*************************************************
 	 * jQUERY PLUGIN
 	 *************************************************/
-	$.fn.fpParallaxImage = function( param1, param2 ) {
+	$.fn.fpParallaxImage = function() {
+
+		var param0 = arguments[0];
+		var param1 = arguments[1];
 
 		this.each( function() {
 
@@ -257,11 +259,11 @@
 
 			if ( obj ) {
 
-				obj.execute( param1, param2 );
+				obj.execute( param0, param1 );
 
 			} else {
 
-				obj = new FullpageParallaxImage( this, param1 );
+				obj = new FullpageParallaxImage( this, param0 );
 				$item.data( pluginKey, obj );
 
 			}
