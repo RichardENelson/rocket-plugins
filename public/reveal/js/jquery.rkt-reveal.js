@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.3
+ * @version 0.0.4
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -160,10 +160,13 @@
 		// ----- PUBLIC CONSTANTS ----- //
 
 		// ----- PUBLIC FUNCTIONS ----- //
-		function add( elem ) {
+		function add( elem, options ) {
 			console.log( "RocketRevealManager: add" );
 
-			var revealer = new RocketReveal( elem );
+			var stagger = ( options ) ? options.stagger : undefined;
+			var threshold = ( options ) ? options.threshold : undefined;
+
+			var revealer = new RocketReveal( elem, stagger, threshold );
 			containers.push( revealer );
 
 		}
@@ -264,7 +267,7 @@
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
-	var RocketReveal = function( elem ) {
+	var RocketReveal = function( elem, stagger, threshold ) {
 		console.log( "new RocketReveal" );
 
 
@@ -286,12 +289,14 @@
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
-		function init( elem ) {
+		function init( elem, stagger, threshold ) {
 			console.log( "RocketReveal: init" );
 
 			$container = $( elem );
-			staggerTime = parseFloat( $container.data( "stagger" ) ) || 0.1;
-			thresholdRatio = parseFloat( $container.data( "threshold" ) ) || 0.9;
+			staggerTime = stagger || parseFloat( $container.data( "stagger" ) ) || 0.1;
+			thresholdRatio = threshold || parseFloat( $container.data( "threshold" ) ) || 0.9;
+
+			console.warn( staggerTime, thresholdRatio );
 
 			addItems();
 			updateItems();
@@ -419,7 +424,7 @@
 		/*************************************************
 		 * CALL
 		 *************************************************/
-		init( elem );
+		init( elem, stagger, threshold );
 
 
 		/*************************************************
@@ -446,7 +451,7 @@
 		this.each( function() {
 
 			if ( typeof( param0 ) !== "string" )
-				mgr.add( this );
+				mgr.add( this, param0 );
 			else
 				mgr.execute( param0, param1 );
 

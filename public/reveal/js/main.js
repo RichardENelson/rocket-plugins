@@ -19,6 +19,7 @@
 		console.log( "init" );
 
 		$( "#main" ).rktReveal();
+		//$( "#main" ).rktReveal( { stagger: 0.5, threshold: 0.6 } );
 
 	}
 

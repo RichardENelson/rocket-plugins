@@ -10,6 +10,15 @@ Call the plugin on the containing element of the elements to be revealed as the 
 $( "#my-container" ).rktReveal();
 ```
 
+Or alternatively to override the default options:
+
+```javascript
+$( "#my-container" ).rktReveal( {
+	stagger: 0.2,
+	threshold: 0.7
+} );
+```
+
 
 ### Styles
 The reveal plugin can work with either CSS animations or transitions.  Any transforms on the elements will be factored out when calculating the element's offset top position.
@@ -31,7 +40,7 @@ The reveal plugin can work with either CSS animations or transitions.  Any trans
 
 
 ### Options
-Options can be passed via data attributes. For data attributes, append the option name to `data-`, as in `data-interval=""`.
+Options can be passed via JavaScript within an object or as data attributes.  Options set in JavaScript will take precedence over data attributes.  For data attributes, append the option name to `data-`, as in `data-interval=""` in the DOM.
 
 **stagger** (Number) When several elements pass the threshold at once, the animation/transition in is staggered.  This time is represented in seconds.  Default `0.1`.
 
@@ -59,6 +68,9 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 ## History
+### v0.0.4
+Added ability to set options via JavaScript.
+
 ### v0.0.3
 Added event handling for animation/transition end, in which the reveal classes are removed.  This will allow the browser to display the items without using the GPU if desired.
 
