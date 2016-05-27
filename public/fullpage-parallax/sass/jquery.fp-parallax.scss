@@ -1,0 +1,19 @@
+/*************************************************
+ * FULLPAGE PARALLAX
+ *************************************************/
+
+.fp-parallax-container {
+	position: relative;
+	overflow: hidden;
+}
+
+.fp-parallax {
+	display: block;
+	position: absolute;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	transition: transform 0.7s;
+	backface-visibility: hidden;
+	perspective: 1000px;
+}

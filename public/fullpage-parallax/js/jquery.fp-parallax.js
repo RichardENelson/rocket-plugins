@@ -57,12 +57,6 @@
 			var bleed = ( options ) ? options.bleed : undefined;
 			minBleed = bleed || parseInt( $image.data( "bleed" ) ) || 100;
 
-			// Style Container
-			$container.css( {
-				position: "relative",
-				overflow: "hidden"
-			} );
-
 			// Stuff
 			if ( isLoaded ) {
 

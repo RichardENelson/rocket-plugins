@@ -56,6 +56,7 @@
 			prod: {
 				files: {
 					"public/common/css/main.css": "public/common/sass/main/main.scss",
+					"public/fullpage-parallax/css/jquery.fp-parallax.css": "public/fullpage-parallax/sass/jquery.fp-parallax.scss",
 					"public/parallax/css/jquery.rkt-parallax.css": "public/parallax/sass/jquery.rkt-parallax.scss",
 					"public/reveal/css/jquery.rkt-reveal.css": "public/reveal/sass/jquery.rkt-reveal.scss"
 				}
@@ -77,6 +78,7 @@
 			build: {
 				files: {
 					"public/common/css/main.min.css": "public/common/css/main.css",
+					"public/fullpage-parallax/css/jquery.fp-parallax.min.css": "public/fullpage-parallax/css/jquery.fp-parallax.css",
 					"public/parallax/css/jquery.rkt-parallax.min.css": "public/parallax/css/jquery.rkt-parallax.css",
 					"public/reveal/css/jquery.rkt-reveal.min.css": "public/reveal/css/jquery.rkt-reveal.css"
 				}
@@ -97,6 +99,9 @@
 				files: {
 					"public/common/js/vendor/modernizr-2.8.3.min.js": [
 						"bower_components/modernizr/modernizr.js"
+					],
+					"public/fullpage-parallax/js/jquery.fp-parallax.min.js": [
+						"public/fullpage-parallax/js/jquery.fp-parallax.js"
 					],
 					"public/parallax/js/jquery.rkt-parallax.min.js": [
 						"public/parallax/js/jquery.rkt-parallax.js"
