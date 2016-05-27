@@ -75,6 +75,7 @@
 		 *************************************************/
 
 		// ----- PRIVATE VARS ----- //
+		var $document;
 		var $window;
 
 		var enabled;
@@ -88,7 +89,6 @@
 		var windowTop;
 
 		var resizeTimer;
-		var scrollTimer;
 
 
 		// ----- PRIVATE CONSTANTS ----- //
@@ -101,12 +101,13 @@
 
 			images = [];
 
+			$document = $( document );
 			$window = $( window );
 
 			windowHeight = $window.height();
 			windowTop = $window.scrollTop();
 
-			docTop = $( document ).scrollTop();
+			docTop = $document.scrollTop();
 			docBottom = docTop + windowHeight;
 
 		}
@@ -143,7 +144,7 @@
 		function managePositions() {
 			console.log( "RocketParallaxManager: managePositions" );
 
-			docTop = $( document ).scrollTop();
+			docTop = $document.scrollTop();
 			docBottom = docTop + windowHeight;
 
 			var i = 0;
