@@ -4,11 +4,14 @@
 
 .rkt-parallax {
 	position: absolute;
+	max-width: none;
+	min-width: 0;
+	max-height: none;
+	min-height: 0;
 
 	backface-visibility: hidden;
 	perspective: 1000px;
 }
-
 
 
 
