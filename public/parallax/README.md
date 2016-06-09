@@ -60,6 +60,9 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 ## History
+### v0.0.3
+Added detection and utilization of passive event listeners for scrolling.
+
 ### v0.0.2
 Changed how images are positioned from background images where the background position is set, to image elements where positioning is done through CSS transforms.
 

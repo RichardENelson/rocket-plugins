@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.2
+ * @version 0.0.3
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -79,6 +79,7 @@
 		var $window;
 
 		var enabled;
+		var passiveSupported;
 
 		var images;
 
@@ -98,6 +99,8 @@
 		// ----- PRIVATE FUNCTIONS ----- //
 		function init() {
 			console.log( "RocketParallaxManager: init" );
+
+			passiveSupported = getPassiveSupport();
 
 			images = [];
 
@@ -121,6 +124,27 @@
 				resizeTimer = undefined;
 
 			}
+
+		}
+
+		function getPassiveSupport() {
+			console.log( "RocketParallaxManager: getPassiveSupport" );
+
+			var supportsPassive = false;
+
+			try {
+
+				var opts = Object.defineProperty( {}, "passive", {
+					get: function() {
+						supportsPassive = true;
+					}
+				} );
+
+				window.addEventListener( "test", null, opts );
+
+			} catch ( e ) {}
+
+			return supportsPassive;
 
 		}
 
@@ -228,7 +252,7 @@
 			clearResizeTimer();
 
 			$window.off( "resize", onResize );
-			$window.off( "scroll", onScroll );
+			$window[0].removeEventListener( "scroll", onScroll );
 
 		}
 
@@ -238,7 +262,11 @@
 			enabled = true;
 
 			$window.on( "resize", onResize );
-			$window.on( "scroll", onScroll );
+
+			if ( passiveSupported )
+				$window[0].addEventListener( "scroll", onScroll, { passive: true } );
+			else
+				$window[0].addEventListener( "scroll", onScroll );
 
 		}
 
@@ -461,10 +489,10 @@
 				top: nY
 			} );
 
-			//console.info( "Container:", containerWidth, containerHeight );
-			//console.info( "Fill:", fillWidth, fillHeight );
-			//console.info( "Natural:", naturalWidth, naturalHeight );
-			//console.info( "New Dimensions:", nWidth, nHeight );
+			console.info( "Container:", containerWidth, containerHeight );
+			console.info( "Fill:", fillWidth, fillHeight );
+			console.info( "Natural:", naturalWidth, naturalHeight );
+			console.info( "New Dimensions:", nWidth, nHeight );
 
 		}
 

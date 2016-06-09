@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.4
+ * @version 0.0.5
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -69,6 +69,7 @@
 		var $window;
 		var containers;
 		var enabled;
+		var passiveSupported;
 		var resizeTimer;
 		var scrollTimer;
 		var windowHeight;
@@ -85,6 +86,7 @@
 			console.log( "RocketRevealManager: init" );
 
 			containers = [];
+			passiveSupported = getPassiveSupport();
 
 			$window = $( window );
 			windowHeight = $window.height();
@@ -113,6 +115,27 @@
 				scrollTimer = undefined;
 
 			}
+
+		}
+
+		function getPassiveSupport() {
+			console.log( "RocketParallaxManager: getPassiveSupport" );
+
+			var supportsPassive = false;
+
+			try {
+
+				var opts = Object.defineProperty( {}, "passive", {
+					get: function() {
+						supportsPassive = true;
+					}
+				} );
+
+				window.addEventListener( "test", null, opts );
+
+			} catch ( e ) {}
+
+			return supportsPassive;
 
 		}
 
@@ -193,7 +216,7 @@
 			clearScrollTimer();
 
 			$window.off( "resize", onResize );
-			$window.off( "scroll", onScroll );
+			$window[0].removeEventListener( "scroll", onScroll );
 
 		}
 
@@ -203,7 +226,11 @@
 			enabled = true;
 
 			$window.on( "resize", onResize );
-			$window.on( "scroll", onScroll );
+
+			if ( passiveSupported )
+				$window[0].addEventListener( "scroll", onScroll, { passive: true } );
+			else
+				$window[0].addEventListener( "scroll", onScroll );
 
 		}
 

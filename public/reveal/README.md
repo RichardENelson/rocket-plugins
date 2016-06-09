@@ -68,6 +68,9 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 ## History
+### v0.0.5
+Added detection and utilization of passive event listeners for scrolling.
+
 ### v0.0.4
 Added ability to set options via JavaScript.
 
