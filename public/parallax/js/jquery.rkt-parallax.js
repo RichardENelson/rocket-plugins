@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.3
+ * @version 0.0.4
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -332,6 +332,10 @@
 		var naturalHeight;
 
 
+		// ----- PRIVATE CONSTANTS ----- //
+		var STYLE_LOADED = "rkt-parallax-loaded";
+
+
 		// ----- PRIVATE FUNCTIONS ----- //
 		function init( elem, docTop, docBottom, windowHeight, bleed ) {
 			console.log( "RocketParallaxImage: init", docTop, docBottom, windowHeight, bleed );
@@ -354,6 +358,7 @@
 
 				updateImage();
 				updateTransform();
+				showImage();
 
 			} else {
 
@@ -369,6 +374,13 @@
 			var img = new Image();
 			img.onload = onLoad;
 			img.src = $image.attr( "src" );
+
+		}
+
+		function showImage() {
+			console.log( "RocketParallaxImage: showImage" );
+
+			$image.addClass( STYLE_LOADED );
 
 		}
 
@@ -398,6 +410,8 @@
 
 			updateImage();
 			updateTransform();
+
+			showImage();
 
 		}
 

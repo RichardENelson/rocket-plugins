@@ -100,6 +100,9 @@
 					"public/common/js/vendor/modernizr-2.8.3.min.js": [
 						"bower_components/modernizr/modernizr.js"
 					],
+					"public/cookie/js/jquery.rkt-cookie.min.js": [
+						"public/cookie/js/jquery.rkt-cookie.js"
+					],
 					"public/fullpage-parallax/js/jquery.fp-parallax.min.js": [
 						"public/fullpage-parallax/js/jquery.fp-parallax.js"
 					],

@@ -1,7 +1,7 @@
 /**
  * @title Rocket Cookie
  * @description Manages cookie alerts for websites built using the Fuel Microsite Template.
- * @version 0.0.2
+ * @version 0.0.3
  * @author Richard Nelson
  * @email richard.nelson@fuelintegrated.com
  */
@@ -27,7 +27,7 @@
 
 
 		// ----- PRIVATE CONSTANTS ----- //
-
+		var STYLE_HIDDEN = "hidden";
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
@@ -47,6 +47,7 @@
 
 			} else {
 
+				$alert.removeClass( "hidden" );
 				$btnClose.on( "click", onClose );
 
 			}
