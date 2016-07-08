@@ -54,12 +54,23 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 
+### Lazy Loading
+By not setting the image element `src` attribute and adding the `data-src` attribute to path, the plugin will then only load the image once it scrolls into view.  *Note: This the `src` for lazy loading cannot be set via JavaScript.*
+
+
+
 ## Examples
 (TBD)
 
 
 
 ## History
+### v0.0.5
+Added optional lazy loading of images.
+
+### v0.0.4
+Added fade-in loaded style to prevent FOUC while image dimensions are being retrieved.
+
 ### v0.0.3
 Added detection and utilization of passive event listeners for scrolling.
 

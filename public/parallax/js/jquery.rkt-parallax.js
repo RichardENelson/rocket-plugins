@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.4
+ * @version 0.0.5
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -323,6 +323,7 @@
 		var containerRange;
 
 		var isLoaded;
+		var isLoading;
 
 		var imageBleed;
 		var imagePercentY;
@@ -347,29 +348,36 @@
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
 			isLoaded = ( naturalWidth && naturalHeight );
+			isLoading = false;
 			imagePercentY = 1;
 
-			// Update Bounds and Position
+			// Update Bounds
 			updateBounds( windowHeight );
-			updatePosition( docTop, docBottom );
 
 			// Update Image if Loaded
 			if ( isLoaded ) {
 
 				updateImage();
-				updateTransform();
 				showImage();
 
-			} else {
+			} else if ( $image.attr( "src" ) ) {
 
 				loadImage();
 
 			}
 
+			// Update Position
+			updatePosition( docTop, docBottom );
+
 		}
 
 		function loadImage() {
 			console.log( "RocketParallaxImage: loadImage" );
+
+			isLoading = true;
+
+			if ( $image.data( "src" ) )
+				$image.attr( "src", $image.data( "src" ) );
 
 			var img = new Image();
 			img.onload = onLoad;
@@ -401,9 +409,10 @@
 
 		// ----- PRIVATE EVENT LISTENERS ----- //
 		function onLoad() {
-			console.log( "RocketParallaxImage: onLoad" );
+			console.log( "RocketParallaxImage: onLoad", $image.attr( "src" ) );
 
 			isLoaded = true;
+			isLoading = false;
 
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
@@ -516,7 +525,11 @@
 			if ( docBottom > containerTop && docTop < containerBottom ) {
 
 				imagePercentY = ( containerTop + containerHeight - docTop ) / containerRange;
-				updateTransform();
+
+				if ( isLoaded )
+					updateTransform();
+				else if ( !isLoading )
+					loadImage();
 
 			}
 
