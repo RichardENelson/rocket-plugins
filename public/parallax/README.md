@@ -65,6 +65,9 @@ By not setting the image element `src` attribute and adding the `data-src` attri
 
 
 ## History
+### v0.0.6
+Changed how elements are targetted, so now it's the container that gets added.  This allows the whole container to be hidden while the image is loading.
+
 ### v0.0.5
 Added optional lazy loading of images.
 

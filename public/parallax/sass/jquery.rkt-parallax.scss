@@ -3,6 +3,12 @@
  *************************************************/
 
 .rkt-parallax {
+	position: relative;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+.rkt-parallax-image {
 	position: absolute;
 	margin: 0;
 	border: 0;
@@ -11,12 +17,9 @@
 	min-width: 0;
 	max-height: none;
 	min-height: 0;
-	opacity: 0;
 
 	backface-visibility: hidden;
 	perspective: 1000px;
-
-	transition: opacity 0.3s;
 }
 
 .rkt-parallax-loaded {

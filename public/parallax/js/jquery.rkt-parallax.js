@@ -334,6 +334,7 @@
 
 
 		// ----- PRIVATE CONSTANTS ----- //
+		var SELECTOR_IMAGE = ".rkt-parallax-image";
 		var STYLE_LOADED = "rkt-parallax-loaded";
 
 
@@ -342,9 +343,9 @@
 			console.log( "RocketParallaxImage: init", docTop, docBottom, windowHeight, bleed );
 
 			// Vars
-			$image = $( elem );
-			$container = $image.parent();
-			minBleed = bleed || parseInt( $image.data( "bleed" ) ) || 100;
+			$container = $( elem );
+			$image = $container.find( SELECTOR_IMAGE );
+			minBleed = bleed || parseInt( $container.data( "bleed" ) ) || 100;
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
 			isLoaded = ( naturalWidth && naturalHeight );
@@ -388,7 +389,7 @@
 		function showImage() {
 			console.log( "RocketParallaxImage: showImage" );
 
-			$image.addClass( STYLE_LOADED );
+			$container.addClass( STYLE_LOADED );
 
 		}
 

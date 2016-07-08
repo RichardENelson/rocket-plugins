@@ -10,7 +10,15 @@
 		height: $hero-height;
 		overflow: hidden;
 
-		backface-visibility: hidden;
-		perspective: 1000px;
+		h2 {
+			position: relative;
+			padding-top: 100px;
+
+			color: $color-white;
+			font-size: 48px;
+			line-height: 1;
+			text-align: center;
+			text-shadow: 0px 0px 12px rgba( $color-black, 0.3 );
+		}
 	}
 }
