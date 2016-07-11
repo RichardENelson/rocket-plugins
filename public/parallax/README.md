@@ -3,7 +3,15 @@ Sets images to fill (aka cover) their parent container and vertically scroll sep
 
 ## Documentation
 ### Usage
-Call the plugin on the image element(s) that should have the parallax effect.
+The HTML my have a container element and an image element that is a child of the container, as follows:
+
+```html
+<div class="rkt-parallax">
+	<img class="rkt-parallax-image" src="my-image.jpg"  alt="My Image">
+</div>
+```
+
+Call the plugin on the container element(s) that should have the parallax effect:
 
 ```javascript
 $( ".rkt-parallax" ).rktParallax();
@@ -58,6 +66,20 @@ You can call additional methods on a reveal managed element by calling the plugi
 By not setting the image element `src` attribute and adding the `data-src` attribute to path, the plugin will then only load the image once it scrolls into view.  *Note: This the `src` for lazy loading cannot be set via JavaScript.*
 
 
+### Responsive Images
+The plugin supports responsive images for higher pixel density screens.  For images that don't use lazy loading, you must specify the image source via the `srcset` attribute.  There is no support for anything other than specifying images for varying pixel densities.  For example:
+
+```html
+<img class="rkt-parallax-image" src="my-image.jpg" srcset="my-image.jpg 1x, my-image@2x.jpg 2x" alt="My Image">
+```
+
+If you want to use lazy loading, then specify the image sources as follows:
+
+```html
+<img class="rkt-parallax-image" data-src="my-image.jpg" data-src2x="my-image@2x.jpg" alt="My Image">
+```
+
+
 
 ## Examples
 (TBD)
@@ -65,6 +87,9 @@ By not setting the image element `src` attribute and adding the `data-src` attri
 
 
 ## History
+### v0.0.7
+Added support for responsive images via data attributes or `srcset`.
+
 ### v0.0.6
 Changed how elements are targetted, so now it's the container that gets added.  This allows the whole container to be hidden while the image is loading.
 

@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.5
+ * @version 0.0.7
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -327,6 +327,7 @@
 
 		var imageBleed;
 		var imagePercentY;
+		var imageSource;
 
 		var minBleed;
 		var naturalWidth;
@@ -351,6 +352,7 @@
 			isLoaded = ( naturalWidth && naturalHeight );
 			isLoading = false;
 			imagePercentY = 1;
+			imageSource = getImageSource();
 
 			// Update Bounds
 			updateBounds( windowHeight );
@@ -372,17 +374,62 @@
 
 		}
 
+		function getImageSource() {
+			console.log( "RocketParallaxImage: getImageSource" );
+
+			var pixelRatio = getPixelRatio();
+			var srcset = $image.attr( "srcset" );
+
+			if ( srcset ) {
+
+				var ary = srcset.split( "," );
+
+				ary.forEach( function( item ) {
+
+					if ( item.indexOf( pixelRatio ) !== -1 )
+						return item.replace( /(\b\s\dx|\s)/gi, "" );
+
+				} );
+
+			} else if ( $image.attr( "src" ) ) {
+
+				return $image.attr( "src" );
+
+			} else if ( $image.data( "src" + pixelRatio ) ) {
+
+				return $image.data( "src" + pixelRatio );
+
+			} else {
+
+				return $image.data( "src" );
+
+			}
+
+		}
+
+		function getPixelRatio() {
+			console.log( "RocketParallaxImage: getPixelRatio" );
+
+			var pixelRatio = window.devicePixelRatio || 1;
+
+			if ( pixelRatio >= 2 )
+				return "2x";
+
+			return "1x";
+
+		}
+
 		function loadImage() {
 			console.log( "RocketParallaxImage: loadImage" );
 
 			isLoading = true;
 
-			if ( $image.data( "src" ) )
-				$image.attr( "src", $image.data( "src" ) );
+			if ( !$image.attr( "src" ) )
+				$image.attr( "src", imageSource );
 
 			var img = new Image();
 			img.onload = onLoad;
-			img.src = $image.attr( "src" );
+			img.src = imageSource;
 
 		}
 
@@ -410,7 +457,7 @@
 
 		// ----- PRIVATE EVENT LISTENERS ----- //
 		function onLoad() {
-			console.log( "RocketParallaxImage: onLoad", $image.attr( "src" ) );
+			console.log( "RocketParallaxImage: onLoad", imageSource );
 
 			isLoaded = true;
 			isLoading = false;
