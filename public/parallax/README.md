@@ -87,6 +87,9 @@ If you want to use lazy loading, then specify the image sources as follows:
 
 
 ## History
+### v0.0.8 BETA
+Added support for multiple images within a single container.  This is an unstable build and still needs to be optimized.
+
 ### v0.0.7
 Added support for responsive images via data attributes or `srcset`.
 

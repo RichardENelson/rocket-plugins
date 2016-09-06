@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.7
+ * @version 0.0.8
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -9,6 +9,12 @@
 (function( $ ) {
 
 	"use strict";
+
+	/*************************************************
+	 * CONSTANTS
+	 *************************************************/
+	var EVENT_CONTAINER_LOADED = "loaded.rocket.container";
+	var EVENT_IMAGE_LOADED = "loaded.rocket.image";
 
 
 	/*************************************************
@@ -63,6 +69,8 @@
 
 	}());
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
@@ -81,7 +89,7 @@
 		var enabled;
 		var passiveSupported;
 
-		var images;
+		var containers;
 
 		var docTop;
 		var docBottom;
@@ -102,7 +110,7 @@
 
 			passiveSupported = getPassiveSupport();
 
-			images = [];
+			containers = [];
 
 			$document = $( document );
 			$window = $( window );
@@ -154,12 +162,12 @@
 			windowHeight = $( window ).height();
 
 			var i = 0;
-			var length = images.length;
+			var length = containers.length;
 
 			for ( i; i < length; i++ ) {
 
-				images[i].updateBounds( windowHeight );
-				images[i].updateImage();
+				containers[i].updateBounds( windowHeight );
+				containers[i].updateImages();
 
 			};
 
@@ -172,11 +180,11 @@
 			docBottom = docTop + windowHeight;
 
 			var i = 0;
-			var length = images.length;
+			var length = containers.length;
 
 			for ( i; i < length; i++ ) {
 
-				images[i].updatePosition( docTop, docBottom );
+				containers[i].updatePosition( docTop, docBottom );
 
 			};
 
@@ -184,6 +192,15 @@
 
 
 		// ----- PRIVATE EVENT LISTENERS ----- //
+		function onContainerLoaded( e, container ) {
+			console.log( "RocketParallaxManager: onContainerLoaded" );
+
+			container.updateBounds( windowHeight );
+			container.updateImages();
+			container.updatePosition( docTop, docBottom );
+
+		}
+
 		function onResize( e ) {
 			console.log( "RocketParallaxManager: onResize" );
 
@@ -223,8 +240,9 @@
 
 			var bleed = ( options ) ? options.bleed : undefined;
 
-			var image = new RocketParallaxImage( elem, docTop, docBottom, windowHeight, bleed );
-			images.push( image );
+			var container = new RocketParallaxContainer( elem, docTop, docBottom, windowHeight, bleed );
+			container.getContainerElement().one( EVENT_CONTAINER_LOADED, onContainerLoaded );
+			containers.push( container );
 
 		}
 
@@ -234,11 +252,11 @@
 			disable();
 
 			var i = 0;
-			var length = images.length;
+			var length = containers.length;
 
 			for ( i; i < length; i++ ) {
 
-				images[i].destroy();
+				containers[i].destroy();
 
 			};
 
@@ -298,13 +316,246 @@
 		 	execute: execute
 		}
 
-	}
+	};
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
-	var RocketParallaxImage = function( elem, docTop, docBottom, windowHeight, bleed ) {
+	var RocketParallaxContainer = function( elem, docTop, docBottom, windowHeight, bleed ) {
+		console.log( "new RocketParallaxContainer" );
+
+
+		/*************************************************
+		 * PRIVATE
+		 *************************************************/
+
+		// ----- PRIVATE VARS ----- //
+		var container;
+
+		var $container;
+
+		var containerWidth;
+		var containerHeight;
+		var containerTop;
+		var containerBottom;
+		var containerRange;
+
+		var images;
+
+		var isLoaded;
+		var loadCount;
+
+
+		// ----- PRIVATE CONSTANTS ----- //
+		var SELECTOR_IMAGE = ".rkt-parallax-image";
+		var STYLE_LOADED = "rkt-parallax-loaded";
+
+
+		// ----- PRIVATE FUNCTIONS ----- //
+		function init( elem, docTop, docBottom, windowHeight, bleed ) {
+			console.log( "RocketParallaxContainer: init", docTop, docBottom, windowHeight, bleed );
+
+			// Vars
+			images = [];
+
+			isLoaded = false;
+			loadCount = 0;
+
+			$container = $( elem );
+
+			addImages();
+
+			// Update Bounds
+			updateBounds( windowHeight );
+			updatePosition( docTop, docBottom );
+
+		}
+
+		function addImages() {
+			console.log( "RocketParallaxContainer: addImages" );
+
+			var $images = $container.find( SELECTOR_IMAGE );
+
+			$images.each( function( i ) {
+
+				var image = new RocketParallaxImage( $images[i], bleed );
+				image.getElement().one( EVENT_IMAGE_LOADED, onImageLoaded );
+				image.setup();
+
+				images.push( image );
+
+			} );
+
+		}
+
+		function loadImages() {
+			console.log( "RocketParallaxContainer: loadImages" );
+			console.info( isLoaded );
+			console.info( images.length );
+
+			if ( !isLoaded ) {
+
+				var i = 0;
+				var length = images.length;
+				var image;
+
+				for ( i; i < length; i++ ) {
+
+					image = images[i];
+
+					if ( image.getIsLoaded() ) {
+						console.info( "RocketParallaxContainer: loadImages > already loaded" );
+
+						onImageLoaded( null );
+
+					} else {
+						console.info( "RocketParallaxContainer: loadImages > loading image" );
+
+						image.load();
+
+					}
+
+				}
+
+			}
+
+		}
+
+		function showContainer() {
+			console.log( "RocketParallaxContainer: showContainer" );
+
+			$container.addClass( STYLE_LOADED );
+
+		}
+
+
+		// ----- PRIVATE EVENT LISTENERS ----- //
+		function onImageLoaded( e ) {
+			console.log( "RocketParallaxContainer: onImageLoaded" );
+
+			loadCount++;
+
+			if ( loadCount >= images.length ) {
+				console.info( "RocketParallaxContainer: onImageLoaded > images loaded" );
+
+				isLoaded = true;
+				updateImages();
+				showContainer();
+
+				$container.trigger( EVENT_CONTAINER_LOADED, container );
+
+			}
+
+		}
+
+
+		/*************************************************
+		 * PUBLIC
+		 *************************************************/
+
+		// ----- PUBLIC VARS ----- //
+
+		// ----- PUBLIC CONSTANTS ----- //
+
+		// ----- PUBLIC FUNCTIONS ----- //
+		function destroy() {
+			console.log( "RocketParallaxContainer: destroy" );
+
+			// TBD
+
+		}
+
+		function getContainerElement() {
+			return $container;
+		}
+
+		function updateBounds( windowHeight ) {
+			console.log( "RocketParallaxContainer: updateBounds", windowHeight );
+
+			containerWidth = $container.outerWidth();
+			containerHeight = $container.outerHeight();
+
+			containerTop = $container.offset().top;
+			containerBottom = containerTop + containerHeight;
+
+			containerRange = windowHeight + containerHeight;
+
+			//console.info( containerHeight, containerTop, containerBottom, containerRange );
+
+		}
+
+		function updateImages() {
+			console.log( "RocketParallaxContainer: updateImages" );
+
+			var i = 0;
+			var length = images.length;
+			var image;
+
+			for ( i; i < length; i++ ) {
+
+				image = images[i];
+				image.updateImageSize( containerWidth, containerHeight );
+
+			}
+
+		}
+
+		function updatePosition( docTop, docBottom ) {
+			console.log( "RocketParallaxContainer: updatePosition", docTop, docBottom );
+
+			if ( docBottom > containerTop && docTop < containerBottom ) {
+
+				if ( !isLoaded )
+					loadImages();
+
+				var i = 0;
+				var length = images.length;
+				var image;
+
+				for ( i; i < length; i++ ) {
+
+					image = images[i];
+					image.updateImagePosition( docTop, containerTop, containerHeight, containerRange );
+
+				}
+
+			}
+
+		}
+
+
+		// ----- PUBLIC EVENT LISTENERS ----- //
+
+
+		/*************************************************
+		 * CALL
+		 *************************************************/
+		init( elem, docTop, docBottom, windowHeight, bleed );
+
+
+		/*************************************************
+		 * RETURN
+		 *************************************************/
+		container = {
+		 	destroy: destroy,
+		 	getContainerElement: getContainerElement,
+		 	updateBounds: updateBounds,
+		 	updateImages: updateImages,
+		 	updatePosition: updatePosition
+		};
+
+		return container;
+
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/*************************************************
+	 * PROTOTYPE
+	 *************************************************/
+	var RocketParallaxImage = function( elem, bleed ) {
 		console.log( "new RocketParallaxImage" );
 
 
@@ -313,14 +564,7 @@
 		 *************************************************/
 
 		// ----- PRIVATE VARS ----- //
-		var $container;
 		var $image;
-
-		var containerWidth;
-		var containerHeight;
-		var containerTop;
-		var containerBottom;
-		var containerRange;
 
 		var isLoaded;
 		var isLoading;
@@ -335,42 +579,19 @@
 
 
 		// ----- PRIVATE CONSTANTS ----- //
-		var SELECTOR_IMAGE = ".rkt-parallax-image";
-		var STYLE_LOADED = "rkt-parallax-loaded";
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
-		function init( elem, docTop, docBottom, windowHeight, bleed ) {
-			console.log( "RocketParallaxImage: init", docTop, docBottom, windowHeight, bleed );
+		function init( elem, bleed ) {
+			console.log( "RocketParallaxImage: init", bleed );
 
 			// Vars
-			$container = $( elem );
-			$image = $container.find( SELECTOR_IMAGE );
-			minBleed = bleed || parseInt( $container.data( "bleed" ) ) || 100;
-			naturalWidth = $image[0].naturalWidth;
-			naturalHeight = $image[0].naturalHeight;
-			isLoaded = ( naturalWidth && naturalHeight );
+			$image = $( elem );
+
+			isLoaded = false;
 			isLoading = false;
-			imagePercentY = 1;
-			imageSource = getImageSource();
 
-			// Update Bounds
-			updateBounds( windowHeight );
-
-			// Update Image if Loaded
-			if ( isLoaded ) {
-
-				updateImage();
-				showImage();
-
-			} else if ( $image.attr( "src" ) ) {
-
-				loadImage();
-
-			}
-
-			// Update Position
-			updatePosition( docTop, docBottom );
+			minBleed = $image.data( "bleed" ) || bleed || 100;
 
 		}
 
@@ -419,27 +640,6 @@
 
 		}
 
-		function loadImage() {
-			console.log( "RocketParallaxImage: loadImage" );
-
-			isLoading = true;
-
-			if ( !$image.attr( "src" ) )
-				$image.attr( "src", imageSource );
-
-			var img = new Image();
-			img.onload = onLoad;
-			img.src = imageSource;
-
-		}
-
-		function showImage() {
-			console.log( "RocketParallaxImage: showImage" );
-
-			$container.addClass( STYLE_LOADED );
-
-		}
-
 		function updateTransform() {
 			console.log( "RocketParallaxImage: updateTransform" );
 
@@ -459,16 +659,15 @@
 		function onLoad() {
 			console.log( "RocketParallaxImage: onLoad", imageSource );
 
-			isLoaded = true;
-			isLoading = false;
-
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
 
-			updateImage();
-			updateTransform();
+			console.info( "RocketParallaxImage: onLoad: Natural >", naturalWidth, naturalHeight );
 
-			showImage();
+			isLoaded = true;
+			isLoading = false;
+
+			$image.trigger( EVENT_IMAGE_LOADED );
 
 		}
 
@@ -495,30 +694,58 @@
 
 		}
 
-		function execute( func, options ) {
-			console.log( "RocketParallaxImage: execute -> " + func );
+		function setup() {
+			console.log( "RocketParallaxImage: setup" );
 
-			this[ func ].call( this, options );
+			imagePercentY = 1;
+			imageSource = getImageSource();
+
+			naturalWidth = $image[0].naturalWidth;
+			naturalHeight = $image[0].naturalHeight;
+
+			isLoaded = ( naturalWidth && naturalHeight ) === true;
+
+			if ( isLoaded ) {
+				console.log( "RocketParallaxImage: ready > image is loaded" );
+
+				$image.trigger( EVENT_IMAGE_LOADED );
+
+			} else if ( $image.attr( "src" ) ) {
+				console.warn( "RocketParallaxImage: ready > image is not loaded, source is set" );
+
+				load();
+
+			} else {
+				console.warn( "RocketParallaxImage: ready > image is not loaded, source not set" );
+
+			}
 
 		}
 
-		function updateBounds( windowHeight ) {
-			console.log( "RocketParallaxImage: updateBounds", windowHeight );
+		function load() {
+			console.log( "RocketParallaxImage: load" );
 
-			containerWidth = $container.outerWidth();
-			containerHeight = $container.outerHeight();
+			isLoading = true;
 
-			containerTop = $container.offset().top;
-			containerBottom = containerTop + containerHeight;
+			if ( !$image.attr( "src" ) )
+				$image.attr( "src", imageSource );
 
-			containerRange = windowHeight + containerHeight;
-
-			//console.info( containerHeight, containerTop, containerBottom, containerRange );
+			var img = new Image();
+			img.onload = onLoad;
+			img.src = imageSource;
 
 		}
 
-		function updateImage() {
-			console.log( "RocketParallaxImage: updateImage" );
+		function getElement() {
+			return $image;
+		}
+
+		function getIsLoaded() {
+			return isLoaded;
+		}
+
+		function updateImageSize( containerWidth, containerHeight ) {
+			console.log( "RocketParallaxImage: updateImageSize", containerWidth, containerHeight );
 
 			// Vars
 			var fillWidth = containerWidth;
@@ -528,6 +755,10 @@
 			var nHeight;
 			var nX;
 			var nY;
+
+			// Check Naturals
+			if ( !naturalWidth || !naturalHeight )
+				console.error( "Natural Width & Height not set!" );
 
 			// Fill Width, Crop Height
 			if ( naturalWidth / naturalHeight < fillWidth / fillHeight ) {
@@ -560,26 +791,18 @@
 				top: nY
 			} );
 
-			console.info( "Container:", containerWidth, containerHeight );
-			console.info( "Fill:", fillWidth, fillHeight );
-			console.info( "Natural:", naturalWidth, naturalHeight );
-			console.info( "New Dimensions:", nWidth, nHeight );
+			console.info( "RocketParallaxImage: Container >", containerWidth, containerHeight );
+			console.info( "RocketParallaxImage: Fill >", fillWidth, fillHeight );
+			console.info( "RocketParallaxImage: Natural >", naturalWidth, naturalHeight );
+			console.info( "RocketParallaxImage: New Dimensions >", nWidth, nHeight );
 
 		}
 
-		function updatePosition( docTop, docBottom ) {
-			console.log( "RocketParallaxImage: updatePosition", docTop, docBottom );
+		function updateImagePosition( docTop, containerTop, containerHeight, containerRange ) {
+			console.log( "RocketParallaxImage: updateImagePosition", docTop, containerTop, containerHeight, containerRange );
 
-			if ( docBottom > containerTop && docTop < containerBottom ) {
-
-				imagePercentY = ( containerTop + containerHeight - docTop ) / containerRange;
-
-				if ( isLoaded )
-					updateTransform();
-				else if ( !isLoading )
-					loadImage();
-
-			}
+			imagePercentY = ( containerTop + containerHeight - docTop ) / containerRange;
+			updateTransform();
 
 		}
 
@@ -590,7 +813,7 @@
 		/*************************************************
 		 * CALL
 		 *************************************************/
-		init( elem, docTop, docBottom, windowHeight, bleed );
+		init( elem, bleed );
 
 
 		/*************************************************
@@ -598,13 +821,15 @@
 		 *************************************************/
 		return {
 		 	destroy: destroy,
-		 	execute: execute,
-		 	updateBounds: updateBounds,
-		 	updateImage: updateImage,
-		 	updatePosition: updatePosition
+		 	getElement: getElement,
+		 	getIsLoaded: getIsLoaded,
+		 	load: load,
+		 	setup: setup,
+		 	updateImageSize: updateImageSize,
+		 	updateImagePosition: updateImagePosition
 		}
 
-	}
+	};
 
 
 	/*************************************************
