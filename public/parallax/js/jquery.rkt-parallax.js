@@ -347,6 +347,8 @@
 		var isLoaded;
 		var loadCount;
 
+		var minBleed;
+
 
 		// ----- PRIVATE CONSTANTS ----- //
 		var SELECTOR_IMAGE = ".rkt-parallax-image";
@@ -358,13 +360,16 @@
 			console.log( "RocketParallaxContainer: init", docTop, docBottom, windowHeight, bleed );
 
 			// Vars
+			$container = $( elem );
+
 			images = [];
 
 			isLoaded = false;
 			loadCount = 0;
 
-			$container = $( elem );
+			minBleed = bleed || $container.data( "bleed" ) || 100;
 
+			// Add Images
 			addImages();
 
 			// Update Bounds
@@ -496,7 +501,7 @@
 			for ( i; i < length; i++ ) {
 
 				image = images[i];
-				image.updateImageSize( containerWidth, containerHeight );
+				image.updateImageSize( containerWidth, containerHeight, minBleed );
 
 			}
 
@@ -572,8 +577,8 @@
 		var imageBleed;
 		var imagePercentY;
 		var imageSource;
+		var imageZ;
 
-		var minBleed;
 		var naturalWidth;
 		var naturalHeight;
 
@@ -582,8 +587,8 @@
 
 
 		// ----- PRIVATE FUNCTIONS ----- //
-		function init( elem, bleed ) {
-			console.log( "RocketParallaxImage: init", bleed );
+		function init( elem ) {
+			console.log( "RocketParallaxImage: init" );
 
 			// Vars
 			$image = $( elem );
@@ -591,7 +596,7 @@
 			isLoaded = false;
 			isLoading = false;
 
-			minBleed = $image.data( "bleed" ) || bleed || 100;
+			imageZ = parseFloat( $image.data( "z" ) ) || 1;
 
 		}
 
@@ -600,21 +605,31 @@
 
 			var pixelRatio = getPixelRatio();
 			var srcset = $image.attr( "srcset" );
+			var src = $image.attr( "src" );
 
 			if ( srcset ) {
 
 				var ary = srcset.split( "," );
 
-				ary.forEach( function( item ) {
+				console.error( pixelRatio, ary );
+				console.info( ary[0].indexOf( pixelRatio ) );
+				console.info( ary[0].replace( /(\b\s\dx|\s)/gi, "" ) );
 
-					if ( item.indexOf( pixelRatio ) !== -1 )
+				ary.forEach( function( item ) {
+					console.info( item );
+
+					if ( item.indexOf( pixelRatio ) !== -1 ) {
+
+						console.info( "match" );
 						return item.replace( /(\b\s\dx|\s)/gi, "" );
+
+					}
 
 				} );
 
-			} else if ( $image.attr( "src" ) ) {
+			} else if ( src ) {
 
-				return $image.attr( "src" );
+				return src;
 
 			} else if ( $image.data( "src" + pixelRatio ) ) {
 
@@ -625,6 +640,8 @@
 				return $image.data( "src" );
 
 			}
+
+			return null;
 
 		}
 
@@ -699,6 +716,7 @@
 
 			imagePercentY = 1;
 			imageSource = getImageSource();
+			console.warn( imageSource );
 
 			naturalWidth = $image[0].naturalWidth;
 			naturalHeight = $image[0].naturalHeight;
@@ -723,7 +741,7 @@
 		}
 
 		function load() {
-			console.log( "RocketParallaxImage: load" );
+			console.log( "RocketParallaxImage: load", imageSource );
 
 			isLoading = true;
 
@@ -744,8 +762,8 @@
 			return isLoaded;
 		}
 
-		function updateImageSize( containerWidth, containerHeight ) {
-			console.log( "RocketParallaxImage: updateImageSize", containerWidth, containerHeight );
+		function updateImageSize( containerWidth, containerHeight, minBleed ) {
+			console.log( "RocketParallaxImage: updateImageSize", containerWidth, containerHeight, minBleed );
 
 			// Vars
 			var fillWidth = containerWidth;
@@ -762,23 +780,23 @@
 
 			// Fill Width, Crop Height
 			if ( naturalWidth / naturalHeight < fillWidth / fillHeight ) {
+				console.info( "RocketParallaxImage: updateImageSize: Crop Height" );
 
 				nWidth = fillWidth;
 				nHeight = fillWidth * naturalHeight / naturalWidth;
 
-				nX = 0;
-				nY = 0;
-
 			// Fill Height, Crop Width
 			} else {
+				console.info( "RocketParallaxImage: updateImageSize: Crop Width" );
 
 				nWidth = fillHeight * naturalWidth / naturalHeight;
 				nHeight = fillHeight;
 
-				nX = -( nWidth - fillWidth ) / 2;
-				nY = 0;
-
 			}
+
+			// Set Position
+			nX = -( nWidth - fillWidth ) / 2;
+			nY = 0;
 
 			// Set Image Bleed
 			imageBleed = ( nHeight - containerHeight ) / 2;
@@ -791,17 +809,19 @@
 				top: nY
 			} );
 
-			console.info( "RocketParallaxImage: Container >", containerWidth, containerHeight );
-			console.info( "RocketParallaxImage: Fill >", fillWidth, fillHeight );
-			console.info( "RocketParallaxImage: Natural >", naturalWidth, naturalHeight );
-			console.info( "RocketParallaxImage: New Dimensions >", nWidth, nHeight );
+			console.info( "RocketParallaxImage: updateImageSize: Source > ", imageSource );
+			console.info( "RocketParallaxImage: updateImageSize: Container >", containerWidth, containerHeight );
+			console.info( "RocketParallaxImage: updateImageSize: Minimum Bleed > ", minBleed );
+			console.info( "RocketParallaxImage: updateImageSize: Fill >", fillWidth, fillHeight );
+			console.info( "RocketParallaxImage: updateImageSize: Natural >", naturalWidth, naturalHeight );
+			console.info( "RocketParallaxImage: updateImageSize: New Dimensions >", nWidth, nHeight );
 
 		}
 
 		function updateImagePosition( docTop, containerTop, containerHeight, containerRange ) {
 			console.log( "RocketParallaxImage: updateImagePosition", docTop, containerTop, containerHeight, containerRange );
 
-			imagePercentY = ( containerTop + containerHeight - docTop ) / containerRange;
+			imagePercentY = ( ( containerTop + containerHeight - docTop ) / containerRange - 0.5 ) * imageZ + 0.5;
 			updateTransform();
 
 		}
@@ -813,7 +833,7 @@
 		/*************************************************
 		 * CALL
 		 *************************************************/
-		init( elem, bleed );
+		init( elem );
 
 
 		/*************************************************
