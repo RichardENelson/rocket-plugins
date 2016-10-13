@@ -106,6 +106,9 @@
 					"public/fullpage-parallax/js/jquery.fp-parallax.min.js": [
 						"public/fullpage-parallax/js/jquery.fp-parallax.js"
 					],
+					"public/menu/js/jquery.rkt-menu.min.js": [
+						"public/menu/js/jquery.rkt-menu.js"
+					],
 					"public/parallax/js/jquery.rkt-parallax.min.js": [
 						"public/parallax/js/jquery.rkt-parallax.js"
 					],

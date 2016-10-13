@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.5
+ * @version 0.0.6
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -189,7 +189,7 @@
 			var stagger = ( options ) ? options.stagger : undefined;
 			var threshold = ( options ) ? options.threshold : undefined;
 
-			var revealer = new RocketReveal( elem, stagger, threshold );
+			var revealer = new RocketRevealContainer( elem, stagger, threshold );
 			containers.push( revealer );
 
 		}
@@ -294,8 +294,8 @@
 	/*************************************************
 	 * PROTOTYPE
 	 *************************************************/
-	var RocketReveal = function( elem, stagger, threshold ) {
-		console.log( "new RocketReveal" );
+	var RocketRevealContainer = function( elem, stagger, threshold ) {
+		console.log( "new RocketRevealContainer" );
 
 
 		/*************************************************
@@ -317,7 +317,7 @@
 
 		// ----- PRIVATE FUNCTIONS ----- //
 		function init( elem, stagger, threshold ) {
-			console.log( "RocketReveal: init" );
+			console.log( "RocketRevealContainer: init" );
 
 			$container = $( elem );
 			staggerTime = stagger || parseFloat( $container.data( "stagger" ) ) || 0.1;
@@ -331,7 +331,7 @@
 		}
 
 		function addItems() {
-			console.log( "RocketReveal: addItems" );
+			console.log( "RocketRevealContainer: addItems" );
 
 			var $item;
 
@@ -348,7 +348,7 @@
 		}
 
 		function getElementOffsetTop( elem ) {
-			//console.log( "RocketReveal: getElementOffsetTop" );
+			//console.log( "RocketRevealContainer: getElementOffsetTop" );
 
 			var itemTransform = elem.css( "transform" ).replace( /[a-zA-Z\(\)\s]/g, "" ).split( "," );
 			var itemTop = elem.offset().top - itemTransform[5];
@@ -371,7 +371,7 @@
 
 		// ----- PUBLIC FUNCTIONS ----- //
 		function destroy() {
-			console.log( "RocketReveal: destroy" );
+			console.log( "RocketRevealContainer: destroy" );
 
 			$container.find( "." + STYLE_REVEAL ).not( "." + STYLE_REVEAL_IN ).each( function( i ) {
 
@@ -384,7 +384,7 @@
 		}
 
 		function refreshItems() {
-			console.log( "RocketReveal: refreshItems" );
+			console.log( "RocketRevealContainer: refreshItems" );
 
 			addItems();
 			updateItems();
@@ -392,7 +392,7 @@
 		}
 
 		function updateItems( windowTop, windowHeight ) {
-			console.log( "RocketReveal: updateItems", windowTop, windowHeight );
+			console.log( "RocketRevealContainer: updateItems", windowTop, windowHeight );
 
 			var $item;
 			var delay = 0;
@@ -420,7 +420,7 @@
 					lastIndex = i;
 
 					var onEnd = function( e ) {
-						console.log( "RocketReveal: onEnd" );
+						console.log( "RocketRevealContainer: onEnd" );
 
 						var $target = $( e.currentTarget );
 
@@ -475,14 +475,23 @@
 		var param0 = arguments[0];
 		var param1 = arguments[1];
 
-		this.each( function() {
+		if ( typeof( param0 ) !== "string" ||
+			 param0 === "add" ) {
 
-			if ( typeof( param0 ) !== "string" )
-				mgr.add( this, param0 );
-			else
-				mgr.execute( param0, param1 );
+			this.each( function( i ) {
 
-		} );
+				mgr.add( this, i );
+
+			} );
+
+		} else {
+
+			mgr.execute( param0, param1 );
+
+			if ( param0 === "destroy" )
+				RocketRevealSingleton.destroyInstance();
+
+		}
 
 		return this;
 

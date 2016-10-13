@@ -1,7 +1,7 @@
 /**
  * @title Rocket Parallax Image
  * @description Simple background image parallax effect.
- * @version 0.0.8
+ * @version 0.0.9
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -609,23 +609,7 @@
 
 			if ( srcset ) {
 
-				var ary = srcset.split( "," );
-
-				console.error( pixelRatio, ary );
-				console.info( ary[0].indexOf( pixelRatio ) );
-				console.info( ary[0].replace( /(\b\s\dx|\s)/gi, "" ) );
-
-				ary.forEach( function( item ) {
-					console.info( item );
-
-					if ( item.indexOf( pixelRatio ) !== -1 ) {
-
-						console.info( "match" );
-						return item.replace( /(\b\s\dx|\s)/gi, "" );
-
-					}
-
-				} );
+				return getImageSourceFromSet( srcset, pixelRatio );
 
 			} else if ( src ) {
 
@@ -642,6 +626,34 @@
 			}
 
 			return null;
+
+		}
+
+		function getImageSourceFromSet( srcset, pixelRatio ) {
+			console.log( "RocketParallaxImage: getImageSourceFromSet", srcset, pixelRatio );
+
+			var src = null;
+
+			var ary = srcset.split( "," );
+
+			console.error( pixelRatio, ary );
+			console.info( ary[0].indexOf( pixelRatio ) );
+			console.info( ary[0].replace( /(\b\s\dx|\s)/gi, "" ) );
+
+			ary.some( function( item, i ) {
+				console.info( i, item );
+
+				if ( item.indexOf( pixelRatio ) !== -1 ) {
+
+					console.info( "match" );
+					src = item.replace( /(\b\s\dx|\s)/gi, "" );
+					return true;
+
+				}
+
+			} );
+
+			return src;
 
 		}
 
@@ -741,7 +753,8 @@
 		}
 
 		function load() {
-			console.log( "RocketParallaxImage: load", imageSource );
+			console.log( "RocketParallaxImage: load" );
+			console.info( "RocketParallaxImage: load > ", imageSource );
 
 			isLoading = true;
 
@@ -862,22 +875,23 @@
 		var param0 = arguments[0];
 		var param1 = arguments[1];
 
-		this.each( function() {
+		if ( typeof( param0 ) !== "string" ||
+			 param0 === "add" ) {
 
-			if ( typeof( param0 ) !== "string" ) {
+			this.each( function( i ) {
 
-				mgr.add( this, param0 );
+				mgr.add( this, i );
 
-			} else {
+			} );
 
-				mgr.execute( param0, param1 );
+		} else {
 
-				if ( param0 === "destroy" )
-					RocketParallaxSingleton.destroyInstance();
+			mgr.execute( param0, param1 );
 
-			}
+			if ( param0 === "destroy" )
+				RocketParallaxSingleton.destroyInstance();
 
-		} );
+		}
 
 		return this;
 
