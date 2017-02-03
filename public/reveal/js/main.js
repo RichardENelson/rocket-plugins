@@ -46,7 +46,7 @@
 	* CALL
 	*************************************************/
 	$( document ).ready( onReady );
-	$( window ).load( onLoad );
+	$( window ).on( "load", onLoad );
 
 
 })( this, jQuery );

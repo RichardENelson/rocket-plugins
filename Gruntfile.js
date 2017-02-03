@@ -44,6 +44,20 @@
 						cwd: "bower_components/jquery/dist/",
 						src: [ "*.min.*" ],
 						dest: "public/common/js/vendor"
+					},
+
+					// QUnit
+					{
+						expand: true,
+						cwd: "bower_components/qunit/qunit/",
+						src: [ "qunit.css" ],
+						dest: "public/common/css"
+					},
+					{
+						expand: true,
+						cwd: "bower_components/qunit/qunit/",
+						src: [ "qunit.js" ],
+						dest: "public/common/js/vendor"
 					}
 				]
 			}
