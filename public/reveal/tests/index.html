@@ -4,6 +4,61 @@
 		<meta charset="utf-8">
 		<title>Reveal QUnit Tests</title>
 
+		<!-- STYLES -->
+		<style>
+
+			.wrapper {
+				position: relative;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 200px;
+				overflow: auto;
+			}
+
+			.container {
+				position: relative;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 20000px;
+			}
+
+			.target {
+				position: absolute;
+				top: 1000px;
+				left: 0;
+				margin: 0;
+				border: 0;
+				padding: 0;
+				width: 100px;
+				height: 100px;
+			}
+
+			/*  Opacity */
+			.rkt-reveal.fade {
+				opacity: 0;
+				transition-property: opacity;
+				transition-duration: 0.1s;
+			}
+
+			.rkt-reveal.rkt-reveal-in.fade {
+				opacity: 1;
+			}
+
+			/* Move Up */
+			.rkt-reveal.up {
+				transform: translateY( 100% );
+				transition-property: transform;
+				transition-duration: 0.1s;
+			}
+
+			.rkt-reveal.rkt-reveal-in.up {
+				transform: translateY( 0% );
+			}
+
+		</style>
+
 		<!-- QUNIT -->
 		<link rel="stylesheet" href="/common/css/qunit.css">
 		<script src="/common/js/vendor/qunit.js"></script>
@@ -21,9 +76,7 @@
 	<body>
 
 		<div id="qunit"></div>
-		<div id="qunit-fixture">
-
-		</div>
+		<div id="qunit-fixture"></div>
 
 	</body>
 </html>

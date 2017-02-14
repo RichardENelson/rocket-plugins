@@ -348,7 +348,7 @@
 		}
 
 		function getItemOffsetTop( elem ) {
-			console.log( "RocketRevealContainer: getItemOffsetTop" );
+			//console.log( "RocketRevealContainer: getItemOffsetTop" );
 
 			var itemTransform = elem.css( "transform" ).replace( /[a-zA-Z\(\)\s]/g, "" ).split( "," );
 			var itemTranslateY = parseFloat( itemTransform[5] );
@@ -406,14 +406,14 @@
 			var thresholdTop = windowTop + windowHeight * thresholdRatio;
 
 			//console.info( "NUM ITEMS: " + items.length );
-			//console.info( "------> THRESHOLD TOP: " + thresholdTop );
+			console.info( "------> THRESHOLD TOP: " + thresholdTop );
 
 			for ( i; i < length; i++ ) {
 
 				$item = items[i];
 
 				//console.info( $item );
-				//console.info( "---> ITEM TOP: " + getItemOffsetTop( $item ) );
+				console.info( "---> ITEM TOP: " + getItemOffsetTop( $item ) );
 
 				if ( getItemOffsetTop( $item ) <= thresholdTop ) {
 
