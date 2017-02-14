@@ -1,7 +1,7 @@
 /**
  * @title Rocket Reveal
  * @description Adds reveal class when element scrolls past threshold.
- * @version 0.0.6
+ * @version 0.0.7
  * @author Richard Nelson
  * @email sc2071@gmail.com
  */
@@ -347,13 +347,17 @@
 
 		}
 
-		function getElementOffsetTop( elem ) {
-			//console.log( "RocketRevealContainer: getElementOffsetTop" );
+		function getItemOffsetTop( elem ) {
+			console.log( "RocketRevealContainer: getItemOffsetTop" );
 
 			var itemTransform = elem.css( "transform" ).replace( /[a-zA-Z\(\)\s]/g, "" ).split( "," );
-			var itemTop = elem.offset().top - itemTransform[5];
+			var itemTranslateY = parseFloat( itemTransform[5] );
+			var itemOffsetTop = elem.offset().top;
 
-			return itemTop;
+			if ( itemTranslateY )
+				return itemOffsetTop - itemTransform[5];
+			else
+				return itemOffsetTop;
 
 		}
 
@@ -409,9 +413,9 @@
 				$item = items[i];
 
 				//console.info( $item );
-				//console.info( "---> ITEM TOP: " + getElementOffsetTop( $item ) );
+				//console.info( "---> ITEM TOP: " + getItemOffsetTop( $item ) );
 
-				if ( getElementOffsetTop( $item ) <= thresholdTop ) {
+				if ( getItemOffsetTop( $item ) <= thresholdTop ) {
 
 					//console.info( "---> ITEM DELAY: ", delay );
 					$item.css( "animation-delay", delay.toString() + "s" );

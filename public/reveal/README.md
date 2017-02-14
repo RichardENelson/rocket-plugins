@@ -68,6 +68,9 @@ You can call additional methods on a reveal managed element by calling the plugi
 
 
 ## History
+### v0.0.7
+Fixed an issue where elements/items that weren't starting from a transformed style would return an error when retrieving the offset.
+
 ### v0.0.5
 Added detection and utilization of passive event listeners for scrolling.
 
