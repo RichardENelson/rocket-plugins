@@ -30,6 +30,14 @@
 		 *************************************************/
 
 		// ----- PUBLIC FUNCTIONS ----- //
+		function destroyInstance() {
+			console.log( "RocketRevealSingleton: destroyInstance" );
+
+			instance.destroy();
+			instance = undefined;
+
+		}
+
 		function getInstance() {
 			console.log( "RocketRevealSingleton: getInstance" );
 
@@ -48,6 +56,7 @@
 		 * RETURN
 		 *************************************************/
 		return {
+		 	destroyInstance: destroyInstance,
 		 	getInstance: getInstance
 		}
 
